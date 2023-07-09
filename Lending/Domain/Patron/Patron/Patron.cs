@@ -1,15 +1,22 @@
-﻿using FluentValidation;
+﻿using BookAggregate;
+using FluentValidation;
 using Lending.Domain.BookAggregate;
 
 namespace Lending.Domain.PatronAggregate;
 
 public class Patron
 {
-    public List<Guid> HoldBookIds { get; } = new List<Guid>();
+    public List<Guid> HoldBookIds { get; } = new();
+    public Dictionary<Guid, int> OverDueCheckouts { get; private set; } = new();
 
     public void HoldBook(Book book)
     {
-        new PatronValidator(1).ValidateAndThrow(this);
+        if(book.State.IsUnAvailable)
+        {
+            throw new InvalidOperationException();
+        }
+
+        new PatronValidator(1, book).ValidateAndThrow(this);
 
         HoldBookIds.Add(book.Id);
     }
