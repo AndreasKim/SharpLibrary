@@ -23,7 +23,7 @@ namespace PatronAggregate.Spec.StepDefinitions
         [Given(@"an available book")]
         public void GivenAnAvailableBook()
         {
-            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available, BookType.Circulating);
+            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded);
         }
         
 

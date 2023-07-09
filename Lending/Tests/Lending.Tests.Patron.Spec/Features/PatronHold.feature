@@ -24,3 +24,15 @@ Scenario: Regular Patron tries to place a restriced book on hold
 		And a restricted book
 	When the patron tries to hold the book
 	Then the close ended bookhold fails
+
+Scenario: Regular Patron tried an open ended hold
+	Given a regular patron
+		And an open ended book
+	When the patron tries to hold the book
+	Then the close ended bookhold fails
+
+Scenario: Regular Patron succeeds at placing an close ended hold
+	Given a regular patron
+		And an available book
+	When the patron places a hold on the book
+	Then the close ended bookhold suceeds

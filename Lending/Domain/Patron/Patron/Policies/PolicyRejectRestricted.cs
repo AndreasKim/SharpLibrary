@@ -9,7 +9,9 @@ public class PolicyRejectRestricted : AbstractValidator<Patron>
 {
     public PolicyRejectRestricted(Book book)
     {
-        RuleFor(p => p).Must(p => book.Type == BookType.Circulating).When(p => p.Type == PatronType.Regular)
+        RuleFor(p => p)
+            .Must(p => book.Type == BookType.Circulating)
+            .When(p => p.Type == PatronType.Regular)
             .WithMessage("Regular Patron can only hold circulating books.").WithErrorCode("400");
     }
 }

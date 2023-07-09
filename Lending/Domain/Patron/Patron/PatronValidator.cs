@@ -11,5 +11,6 @@ public class PatronValidator : AbstractValidator<Patron>
         Include(new PolicyMaxHold(booksToHold));
         Include(new PolicyOverDueCheckouts(book));
         Include(new PolicyRejectRestricted(book));
+        Include(new PolicyRejectOpenEnded(book));
     }
 }
