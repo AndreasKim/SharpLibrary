@@ -18,10 +18,6 @@
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Drivers\" />
-    <Folder Include="Support\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Book\Book\BookAggregate.csproj" />

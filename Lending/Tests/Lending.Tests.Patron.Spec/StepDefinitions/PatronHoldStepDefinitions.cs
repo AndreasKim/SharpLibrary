@@ -1,4 +1,5 @@
 using System;
+using FluentValidation;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using TechTalk.SpecFlow;
@@ -25,13 +26,14 @@ namespace PatronAggregate.Spec.StepDefinitions
             _patron.HoldBook(book);
             _patron.HoldBook(book);
             _patron.HoldBook(book);
+            _patron.HoldBook(book);
             _holdAction = () => _patron.HoldBook(book);
         }
 
         [Then(@"the close ended bookhold fails")]
         public void ThenTheCloseEndedBookholdFails()
         {
-            _holdAction.Should().Throw<InvalidOperationException>();
+            _holdAction.Should().Throw<ValidationException>();
         }
     }
 }

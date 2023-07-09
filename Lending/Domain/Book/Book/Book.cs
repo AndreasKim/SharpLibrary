@@ -2,5 +2,5 @@
 
 public class Book
 {
-
+    public Guid Id { get; private set; }
 }
