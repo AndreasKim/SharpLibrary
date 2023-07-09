@@ -1,4 +1,5 @@
 using System;
+using PatronAggregate.Spec.Models;
 using TechTalk.SpecFlow;
 
 namespace PatronAggregate.Spec.StepDefinitions
@@ -6,20 +7,18 @@ namespace PatronAggregate.Spec.StepDefinitions
     [Binding]
     public class PatronHoldOverDueCheckouts
     {
-        private readonly Patron _patron;
-        private readonly Book _book;
+        private readonly PatronHoldContext _context;
 
-        public PatronHoldOverDueCheckouts(Patron patron, Book book)
+        public PatronHoldOverDueCheckouts(PatronHoldContext context)
         {
-            _patron = patron;
-            _book = book;
+            _context = context;
         }
 
         [When(@"the patron has two overdue checkouts at a library branch")]
         public void WhenThePatronHasTwoOverdueCheckoutsAtALibraryBranch()
         {
-            var branch = _book.LibraryBranchId;
-            _patron.OverDueCheckouts.Add(branch, 2);
+            var branch = _context.Book.LibraryBranchId;
+            _context.Patron.OverDueCheckouts.Add(branch, 2);
         }
     }
 }

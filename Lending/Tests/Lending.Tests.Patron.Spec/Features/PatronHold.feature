@@ -16,4 +16,5 @@ Scenario: Patron has 2 overdue checkouts at library branch
 	Given a regular patron
 		And an available book
 	When the patron has two overdue checkouts at a library branch
+		And the patron tries to hold the book
 	Then the close ended bookhold fails

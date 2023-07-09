@@ -1,49 +1,47 @@
 using FluentValidation;
+using PatronAggregate.Spec.Models;
 
 namespace PatronAggregate.Spec.StepDefinitions
 {
     [Binding]
     public class PatronHoldOverMax
     {
-        private Action? _holdAction;
-        private Patron _patron;
-        private Book _book;
+        private readonly PatronHoldContext _context;
 
-        public PatronHoldOverMax(Patron patron, Book book)
+        public PatronHoldOverMax(PatronHoldContext context)
         {
-            _patron = patron;
-            _book = book;
+            _context = context;
         }
 
 
         [Given(@"a regular patron")]
         public void GivenARegularPatron()
         {
-            _patron = new Patron();
+            _context.Patron = new Patron();
         }
 
         [Given(@"an available book")]
         public void GivenAnAvailableBook()
         {
-            _book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available);
+            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available);
         }
         
 
         [When(@"the patron tries to place his (.*)th hold")]
         public void WhenThePatronTriesToPlaceHisThHold(int holds)
         {
-            for (int i = 0; i < holds; i++)
+            for (int i = 1; i < holds; i++)
             {
-                _patron.HoldBook(_book);
+                _context.Patron.HoldBook(_context.Book);
             }
 
-            _holdAction = () => _patron.HoldBook(_book);
+            _context.HoldAction = () => _context.Patron.HoldBook(_context.Book);
         }
 
         [Then(@"the close ended bookhold fails")]
         public void ThenTheCloseEndedBookholdFails()
         {
-            _holdAction.Should().Throw<ValidationException>();
+            _context.HoldAction.Should().Throw<ValidationException>();
         }
     }
 }

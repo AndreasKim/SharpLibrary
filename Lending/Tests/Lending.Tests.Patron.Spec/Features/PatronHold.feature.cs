@@ -176,6 +176,9 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("the patron has two overdue checkouts at a library branch", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
+  testRunner.And("the patron tries to hold the book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 20
  testRunner.Then("the close ended bookhold fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

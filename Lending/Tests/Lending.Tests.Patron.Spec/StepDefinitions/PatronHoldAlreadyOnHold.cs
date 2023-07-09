@@ -1,33 +1,33 @@
+using PatronAggregate.Spec.Models;
+
 namespace PatronAggregate.Spec.StepDefinitions;
 
 [Binding]
 public class PatronHoldAlreadyOnHold
 {
-    private Patron _patron;
-    private Book? _book;
-    private Action _holdAction;
+    private readonly PatronHoldContext _context;
 
-    public PatronHoldAlreadyOnHold(Patron patron)
+    public PatronHoldAlreadyOnHold(PatronHoldContext context)
     {
-        _patron = patron;
+        _context = context;
     }
 
 
     [Given(@"a book that is already on hold")]
     public void GivenABookThatIsAlreadyOnHold()
     {
-        _book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.UnAvailable);
+        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.UnAvailable);
     }
 
     [When(@"the patron tries to hold the book")]
     public void WhenThePatronTriesToHoldTheBook()
     {
-        _holdAction = () => _patron.HoldBook(_book);
+        _context.HoldAction = () => _context.Patron.HoldBook(_context.Book);
     }
 
     [Then(@"the close ended bookhold throws an invalid operation exception\.")]
     public void ThenTheCloseEndedBookholdThrowsAnInvalidOperationException_()
     {
-        _holdAction.Should().Throw<InvalidOperationException>();
+        _context.HoldAction.Should().Throw<InvalidOperationException>();
     }
 }
