@@ -17,13 +17,13 @@ namespace PatronAggregate.Spec.StepDefinitions
         [Given(@"a regular patron")]
         public void GivenARegularPatron()
         {
-            _context.Patron = new Patron();
+            _context.Patron = new Patron(PatronType.Regular);
         }
 
         [Given(@"an available book")]
         public void GivenAnAvailableBook()
         {
-            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available);
+            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available, BookType.Circulating);
         }
         
 

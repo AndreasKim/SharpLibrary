@@ -6,6 +6,12 @@ namespace Lending.Domain.PatronAggregate;
 
 public class Patron
 {
+    public Patron(PatronType type)
+    {
+        Type = type;
+    }
+
+    public PatronType Type { get; private set; }
     public List<Guid> HoldBookIds { get; } = new();
     public Dictionary<Guid, int> OverDueCheckouts { get; private set; } = new();
 

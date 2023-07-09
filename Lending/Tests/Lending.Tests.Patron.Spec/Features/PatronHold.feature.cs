@@ -80,14 +80,14 @@ namespace PatronAggregate.Spec.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Patron hold more than 5 books")]
+        [Xunit.SkippableFactAttribute(DisplayName="Regular Patron hold more than 5 books")]
         [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
-        [Xunit.TraitAttribute("Description", "Patron hold more than 5 books")]
-        public void PatronHoldMoreThan5Books()
+        [Xunit.TraitAttribute("Description", "Regular Patron hold more than 5 books")]
+        public void RegularPatronHoldMoreThan5Books()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Patron hold more than 5 books", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regular Patron hold more than 5 books", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -114,14 +114,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Patron tries to hold a book that is already on hold")]
+        [Xunit.SkippableFactAttribute(DisplayName="Regular Patron tries to hold a book that is already on hold")]
         [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
-        [Xunit.TraitAttribute("Description", "Patron tries to hold a book that is already on hold")]
-        public void PatronTriesToHoldABookThatIsAlreadyOnHold()
+        [Xunit.TraitAttribute("Description", "Regular Patron tries to hold a book that is already on hold")]
+        public void RegularPatronTriesToHoldABookThatIsAlreadyOnHold()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Patron tries to hold a book that is already on hold", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regular Patron tries to hold a book that is already on hold", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 9
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -148,14 +148,14 @@ this.ScenarioInitialize(scenarioInfo);
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Patron has 2 overdue checkouts at library branch")]
+        [Xunit.SkippableFactAttribute(DisplayName="Regular Patron has 2 overdue checkouts at library branch")]
         [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
-        [Xunit.TraitAttribute("Description", "Patron has 2 overdue checkouts at library branch")]
-        public void PatronHas2OverdueCheckoutsAtLibraryBranch()
+        [Xunit.TraitAttribute("Description", "Regular Patron has 2 overdue checkouts at library branch")]
+        public void RegularPatronHas2OverdueCheckoutsAtLibraryBranch()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Patron has 2 overdue checkouts at library branch", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regular Patron has 2 overdue checkouts at library branch", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 15
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -179,6 +179,40 @@ this.ScenarioInitialize(scenarioInfo);
   testRunner.And("the patron tries to hold the book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 20
+ testRunner.Then("the close ended bookhold fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Regular Patron tries to place a restriced book on hold")]
+        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("Description", "Regular Patron tries to place a restriced book on hold")]
+        public void RegularPatronTriesToPlaceARestricedBookOnHold()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regular Patron tries to place a restriced book on hold", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 22
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 23
+ testRunner.Given("a regular patron", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 24
+  testRunner.And("a restricted book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 25
+ testRunner.When("the patron tries to hold the book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 26
  testRunner.Then("the close ended bookhold fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

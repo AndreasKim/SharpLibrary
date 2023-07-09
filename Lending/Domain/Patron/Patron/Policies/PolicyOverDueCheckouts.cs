@@ -11,7 +11,8 @@ namespace PatronAggregate.Policies
         public PolicyOverDueCheckouts(Book book)
         {
             RuleFor(p => p.OverDueCheckouts)
-                .Must(p => NotBeLargerThanMaxCheckout(p, book));
+                .Must(p => NotBeLargerThanMaxCheckout(p, book))
+                .WithMessage($"More than {MAX_CHECKOUT} books have been checked out.").WithErrorCode("400");
         }
 
         private static bool NotBeLargerThanMaxCheckout(Dictionary<Guid, int> dictionary, Book book)

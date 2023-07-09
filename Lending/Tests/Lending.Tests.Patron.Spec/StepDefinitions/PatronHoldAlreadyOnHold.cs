@@ -16,7 +16,7 @@ public class PatronHoldAlreadyOnHold
     [Given(@"a book that is already on hold")]
     public void GivenABookThatIsAlreadyOnHold()
     {
-        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.UnAvailable);
+        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.UnAvailable, BookType.Circulating);
     }
 
     [When(@"the patron tries to hold the book")]
