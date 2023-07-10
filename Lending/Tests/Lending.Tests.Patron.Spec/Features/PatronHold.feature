@@ -1,6 +1,6 @@
 ﻿Feature: PatronHold
 
-Scenario: Regular Patron hold more than 5 books
+Scenario: Regular Patron holds more than 5 books
 	Given a regular patron
 		And an available book
 	When the patron tries to place his 6th hold
