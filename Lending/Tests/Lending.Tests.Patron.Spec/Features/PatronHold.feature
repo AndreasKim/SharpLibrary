@@ -10,7 +10,7 @@ Scenario: Regular Patron tries to hold a book that is already on hold
 	Given a regular patron
 		And a book that is already on hold
 	When the patron tries to hold the book
-	Then the close ended bookhold throws an invalid operation exception.
+	Then the close ended bookhold fails
 
 Scenario: Regular Patron has 2 overdue checkouts at library branch
 	Given a regular patron

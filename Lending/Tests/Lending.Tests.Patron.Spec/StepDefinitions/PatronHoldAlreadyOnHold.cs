@@ -24,10 +24,4 @@ public class PatronHoldAlreadyOnHold
     {
         _context.HoldAction = () => _context.Patron.HoldBook(_context.Book);
     }
-
-    [Then(@"the close ended bookhold throws an invalid operation exception\.")]
-    public void ThenTheCloseEndedBookholdThrowsAnInvalidOperationException_()
-    {
-        _context.HoldAction.Should().Throw<InvalidOperationException>();
-    }
 }

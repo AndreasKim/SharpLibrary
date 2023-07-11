@@ -80,14 +80,14 @@ namespace PatronAggregate.Spec.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Regular Patron hold more than 5 books")]
+        [Xunit.SkippableFactAttribute(DisplayName="Regular Patron holds more than 5 books")]
         [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
-        [Xunit.TraitAttribute("Description", "Regular Patron hold more than 5 books")]
-        public void RegularPatronHoldMoreThan5Books()
+        [Xunit.TraitAttribute("Description", "Regular Patron holds more than 5 books")]
+        public void RegularPatronHoldsMoreThan5Books()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regular Patron hold more than 5 books", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Regular Patron holds more than 5 books", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -142,7 +142,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("the patron tries to hold the book", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 13
- testRunner.Then("the close ended bookhold throws an invalid operation exception.", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("the close ended bookhold fails", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
