@@ -1,23 +1,19 @@
-using System;
-using PatronAggregate.Spec.Models;
-using TechTalk.SpecFlow;
+namespace PatronAggregate.Spec.StepDefinitions;
 
-namespace PatronAggregate.Spec.StepDefinitions
+[Binding]
+public class PatronHoldRestrictedBookHold
 {
-    [Binding]
-    public class PatronHoldRestrictedBookHold
+    private readonly PatronHoldContext _context;
+
+    public PatronHoldRestrictedBookHold(PatronHoldContext context)
     {
-        private readonly PatronHoldContext _context;
+        _context = context;
+    }
 
-        public PatronHoldRestrictedBookHold(PatronHoldContext context)
-        {
-            _context = context;
-        }
-
-        [Given(@"a restricted book")]
-        public void GivenARestrictedBook()
-        {
-            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available, BookType.Restricted, HoldLifeType.CloseEnded);
-        }
+    [Given(@"a restricted book")]
+    public void GivenARestrictedBook()
+    {
+        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available,
+            BookType.Restricted, HoldLifeType.CloseEnded);
     }
 }

@@ -19,7 +19,7 @@ public class Patron
 
     public void HoldBook(Book book)
     {
-        new PatronHoldValidator(1, book).ValidateAndThrow(this);
+        new PoliciesPatronHold(1, book).ValidateAndThrow(this);
 
         _holdBookIds.Add(book.Id);
     }

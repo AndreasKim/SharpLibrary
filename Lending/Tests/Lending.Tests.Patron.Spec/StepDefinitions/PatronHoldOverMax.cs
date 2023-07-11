@@ -1,5 +1,4 @@
 using FluentValidation;
-using PatronAggregate.Spec.Models;
 
 namespace PatronAggregate.Spec.StepDefinitions;
 
@@ -23,7 +22,8 @@ public class PatronHoldOverMax
     [Given(@"an available book")]
     public void GivenAnAvailableBook()
     {
-        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded);
+        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available,
+            BookType.Circulating, HoldLifeType.CloseEnded);
     }
     
 

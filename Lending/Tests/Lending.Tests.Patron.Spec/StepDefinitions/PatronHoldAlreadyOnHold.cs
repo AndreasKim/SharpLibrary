@@ -1,5 +1,3 @@
-using PatronAggregate.Spec.Models;
-
 namespace PatronAggregate.Spec.StepDefinitions;
 
 [Binding]
@@ -16,7 +14,8 @@ public class PatronHoldAlreadyOnHold
     [Given(@"a book that is already on hold")]
     public void GivenABookThatIsAlreadyOnHold()
     {
-        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.UnAvailable, BookType.Circulating, HoldLifeType.CloseEnded);
+        _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.UnAvailable,
+            BookType.Circulating, HoldLifeType.CloseEnded);
     }
 
     [When(@"the patron tries to hold the book")]

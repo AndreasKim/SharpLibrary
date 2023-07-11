@@ -1,7 +1,3 @@
-using System;
-using PatronAggregate.Spec.Models;
-using TechTalk.SpecFlow;
-
 namespace PatronAggregate.Spec.StepDefinitions
 {
     [Binding]
@@ -17,7 +13,8 @@ namespace PatronAggregate.Spec.StepDefinitions
         [Given(@"an open ended book")]
         public void GivenAnOpenEndedBook()
         {
-            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.OpenEnded);
+            _context.Book = new Book(Guid.NewGuid(), Guid.NewGuid(), BookState.Available,
+                BookType.Circulating, HoldLifeType.OpenEnded);
         }
     }
 }
