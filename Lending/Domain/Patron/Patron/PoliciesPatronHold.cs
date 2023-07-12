@@ -1,5 +1,4 @@
-﻿using BookAggregate;
-using FluentValidation;
+﻿using FluentValidation;
 using Lending.Domain.BookAggregate;
 
 namespace Lending.Domain.PatronAggregate;
@@ -20,7 +19,7 @@ public class PoliciesPatronHold : AbstractValidator<Patron>
     public void PolicyMaxHold(int booksToHold)
     {
         RuleFor(p => p.HoldBookIds.Count + booksToHold).LessThanOrEqualTo(5)
-            .WithMessage("Patron can not hold more than 5 books.").WithErrorCode("400");
+            .WithMessage("Regular Patron can not hold more than 5 books.").WithErrorCode("400");
     }
 
     public void PolicyRejectOpenEnded(Book book)

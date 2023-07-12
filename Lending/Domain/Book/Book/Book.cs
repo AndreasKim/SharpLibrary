@@ -1,6 +1,4 @@
-﻿using BookAggregate;
-
-namespace Lending.Domain.BookAggregate;
+﻿namespace Lending.Domain.BookAggregate;
 
 public class Book
 {

@@ -1,16 +1,15 @@
-﻿using Core.Domain;
+﻿using Lending.Core.Domain;
 
-namespace BookAggregate
+namespace Lending.Domain.PatronAggregate;
+
+public class PatronType : Enumeration
 {
-    public class PatronType : Enumeration
+    public static PatronType Regular = new(1, nameof(Regular));
+    public static PatronType Researcher = new(2, nameof(Researcher));
+
+    public PatronType(int id, string name)
+        : base(id, name)
     {
-        public static PatronType Regular = new(1, nameof(Regular));
-        public static PatronType Researcher = new(2, nameof(Researcher));
-
-        public PatronType(int id, string name)
-            : base(id, name)
-        {
-        }
-
     }
+
 }

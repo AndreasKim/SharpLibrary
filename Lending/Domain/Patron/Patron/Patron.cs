@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using BookAggregate;
 using FluentValidation;
 using Lending.Domain.BookAggregate;
 
