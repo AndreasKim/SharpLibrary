@@ -26,7 +26,6 @@ public class MyEndpoint : Endpoint<MyRequest>
         AllowAnonymous();
     }
 
-    [Topic(DAPR_PUBSUB_NAME, "MyEvent")]
     public override async Task HandleAsync(MyRequest req, CancellationToken ct)
     {
         Console.WriteLine($"Hello world {req.FirstName}");
