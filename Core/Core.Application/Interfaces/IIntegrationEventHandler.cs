@@ -1,6 +1,6 @@
-﻿using Lending.Core.Application.Events;
+﻿using Core.Application.Events;
 
-namespace Lending.Core.Application.Interfaces;
+namespace Core.Application.Interfaces;
 
 public interface IIntegrationEventHandler<in TIntegrationEvent> : IIntegrationEventHandler
     where TIntegrationEvent : IntegrationEvent

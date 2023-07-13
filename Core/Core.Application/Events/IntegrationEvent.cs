@@ -1,4 +1,4 @@
-﻿namespace Lending.Core.Application.Events;
+﻿namespace Core.Application.Events;
 
 public record IntegrationEvent
 {

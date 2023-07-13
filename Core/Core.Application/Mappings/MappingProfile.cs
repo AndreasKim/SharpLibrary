@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using AutoMapper;
-using Lending.Core.Application.Mappings.Converters;
+using Core.Application.Mappings.Converters;
 
-namespace Lending.Core.Application.Mappings;
+namespace Core.Application.Mappings;
 
 public class MappingProfile : Profile
 {

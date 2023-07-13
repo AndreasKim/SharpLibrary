@@ -1,4 +1,4 @@
-﻿namespace Lending.Core.Application.Interfaces;
+﻿namespace Core.Application.Interfaces;
 
 public interface IDateTime
 {

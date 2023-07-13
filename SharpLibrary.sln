@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7CE1E2CB-0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{ED8791AF-42A1-4163-88FC-3143C384D584}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lending.API", "Lending\API\Lending.API\Lending.API.csproj", "{1EE4EBCA-9DD1-4986-830E-A497A1858D20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.API", "Lending\API\Lending.API\Lending.API.csproj", "{1EE4EBCA-9DD1-4986-830E-A497A1858D20}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "Core\Core.Application\Core.Application.csproj", "{54188BC1-9EA6-4A33-8745-24C8ED357A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "Core\Core.Application\Core.Application.csproj", "{54188BC1-9EA6-4A33-8745-24C8ED357A60}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Lending.Core.Application.Mappings.Converters;
+namespace Core.Application.Mappings.Converters;
 
 public class StringToUriConverter : ITypeConverter<string, Uri?>
 {

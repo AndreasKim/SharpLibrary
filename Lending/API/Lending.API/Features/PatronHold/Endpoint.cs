@@ -1,36 +1,33 @@
-﻿using Dapr;
-using FastEndpoints;
+﻿using FastEndpoints;
 
-namespace Lending.API.Endpoints;
+namespace Lending.API.Features.PatronHold;
 
-public class MyRequest
+public class PatronHoldRequest
 {
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public int Age { get; set; }
 }
 
-public class MyResponse
+public class PatronHoldResponse
 {
     public string FullName { get; set; }
     public bool IsOver18 { get; set; }
 }
 
-public class MyEndpoint : Endpoint<MyRequest>
+public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 {
-    private const string DAPR_PUBSUB_NAME = "pubsub";
-
     public override void Configure()
     {
-        Post("/api/myevent");
+        Post("myevent");
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(MyRequest req, CancellationToken ct)
+    public override async Task HandleAsync(PatronHoldRequest req, CancellationToken ct)
     {
         Console.WriteLine($"Hello world {req.FirstName}");
 
-        var response = new MyResponse()
+        var response = new PatronHoldResponse()
         {
             FullName = req.FirstName + " " + req.LastName,
             IsOver18 = req.Age > 18

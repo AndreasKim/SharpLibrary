@@ -1,5 +1,5 @@
-﻿using Lending.Core.Application.Events;
-using Lending.Core.Application.Interfaces;
+﻿using Core.Application.Events;
+using Core.Application.Interfaces;
 
 namespace Lending.API.IntegrationEvents.Handlers;
 

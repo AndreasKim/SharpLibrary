@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Lending.Core.Application.Mappings;
+namespace Core.Application.Mappings;
 
 public interface IMapFrom<T>
 {
