@@ -1,10 +1,10 @@
-﻿using NRedisStack;
-using NRedisStack.RedisStackCommands;
+﻿using System.Text.Json;
+using NRedisStack;
 using StackExchange.Redis;
 
 namespace Lending.Infrastructure
 {
-    public class Repository
+    public class Repository : IRepository
     {
         private readonly IDatabase _db;
         private readonly JsonCommandsAsync _jsonCommand;
@@ -18,12 +18,16 @@ namespace Lending.Infrastructure
 
         public async Task<bool> Upsert<T>(Guid id, T value)
         {
-            return await _jsonCommand.SetAsync(new RedisKey(id.ToString()), new RedisValue(typeof(T).Name) , value);
-        }       
-        
-        public async Task<RedisResult> Get<T>(Guid id, T value)
+            return await _jsonCommand.SetAsync(new RedisKey(id.ToString()), new RedisValue("$"), value);
+        }
+
+        public async Task<T?> Get<T>(Guid id)
         {
-            return await _jsonCommand.GetAsync(new RedisKey(id.ToString()), path: new RedisValue(typeof(T).Name));
+            var result = await _jsonCommand.GetAsync(new RedisKey(id.ToString()));
+            if (result == null)
+                return default;
+
+            return JsonSerializer.Deserialize<T>(result.ToString()!);
         }
 
 

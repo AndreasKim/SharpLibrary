@@ -12,6 +12,7 @@ public class Patron
         Type = type;
     }
 
+    public Guid Id { get; set; }
     public PatronType Type { get; private set; }
     public ReadOnlyCollection<Guid> HoldBookIds => _holdBookIds.AsReadOnly();
     public Dictionary<Guid, int> OverDueCheckouts { get; private set; } = new();
