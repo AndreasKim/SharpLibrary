@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookAggregate", "Lending\Domain\Book\Book\BookAggregate.csproj", "{AC2CF9CA-F6F0-40C3-B5C6-C60B4EC76241}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookAggregate", "src\Lending\Domain\Book\Book\BookAggregate.csproj", "{AC2CF9CA-F6F0-40C3-B5C6-C60B4EC76241}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatronAggregate", "Lending\Domain\Patron\Patron\PatronAggregate.csproj", "{2B1713D7-1A2D-4CCA-B6CB-77CBD76F54D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatronAggregate", "src\Lending\Domain\Patron\Patron\PatronAggregate.csproj", "{2B1713D7-1A2D-4CCA-B6CB-77CBD76F54D7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lending", "Lending", "{93037DB4-D7D7-41B3-97C2-B8AA0E2CE7BF}"
 EndProject
@@ -13,17 +13,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{9035D7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9376673B-42BC-4B24-9F12-723FE1D6DC64}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatronAggregate.Spec", "Lending\Tests\Lending.Tests.Patron.Spec\PatronAggregate.Spec.csproj", "{89BB20A4-04ED-4B90-BC95-93A82C1FCCBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatronAggregate.Spec", "src\Lending\Tests\Lending.Tests.Patron.Spec\PatronAggregate.Spec.csproj", "{89BB20A4-04ED-4B90-BC95-93A82C1FCCBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Domain", "Core\Core.Domain\Core.Domain.csproj", "{4318D8AA-5F68-40AB-A903-7A6AEAFCCC66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Domain", "src\Core\Core.Domain\Core.Domain.csproj", "{4318D8AA-5F68-40AB-A903-7A6AEAFCCC66}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{7CE1E2CB-0E99-42DA-AD76-C44DB20EDE44}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{ED8791AF-42A1-4163-88FC-3143C384D584}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.API", "Lending\API\Lending.API\Lending.API.csproj", "{1EE4EBCA-9DD1-4986-830E-A497A1858D20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.API", "src\Lending\API\Lending.API\Lending.API.csproj", "{1EE4EBCA-9DD1-4986-830E-A497A1858D20}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "Core\Core.Application\Core.Application.csproj", "{54188BC1-9EA6-4A33-8745-24C8ED357A60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "src\Core\Core.Application\Core.Application.csproj", "{54188BC1-9EA6-4A33-8745-24C8ED357A60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_dapr", "_dapr", "{9A3D805E-1E8D-4B7B-BAE8-21DF0404EF7C}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\config.yaml = dapr\config.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "components", "components", "{27D52564-8E9B-4528-BD28-0F6AB652A3D6}"
+	ProjectSection(SolutionItems) = preProject
+		dapr\components\pubsub.yaml = dapr\components\pubsub.yaml
+		dapr\components\resiliency.yaml = dapr\components\resiliency.yaml
+		dapr\components\statestore.yaml = dapr\components\statestore.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{9BEE17AA-197D-4C88-BB39-A1AFCEE952CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lending.Infrastructure", "src\Lending\Infrastructure\Lending.Infrastructure\Lending.Infrastructure.csproj", "{FF082753-BD37-4BFE-8514-9CA89C4AB225}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +71,10 @@ Global
 		{54188BC1-9EA6-4A33-8745-24C8ED357A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54188BC1-9EA6-4A33-8745-24C8ED357A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54188BC1-9EA6-4A33-8745-24C8ED357A60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF082753-BD37-4BFE-8514-9CA89C4AB225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF082753-BD37-4BFE-8514-9CA89C4AB225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF082753-BD37-4BFE-8514-9CA89C4AB225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF082753-BD37-4BFE-8514-9CA89C4AB225}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +89,9 @@ Global
 		{ED8791AF-42A1-4163-88FC-3143C384D584} = {93037DB4-D7D7-41B3-97C2-B8AA0E2CE7BF}
 		{1EE4EBCA-9DD1-4986-830E-A497A1858D20} = {ED8791AF-42A1-4163-88FC-3143C384D584}
 		{54188BC1-9EA6-4A33-8745-24C8ED357A60} = {7CE1E2CB-0E99-42DA-AD76-C44DB20EDE44}
+		{27D52564-8E9B-4528-BD28-0F6AB652A3D6} = {9A3D805E-1E8D-4B7B-BAE8-21DF0404EF7C}
+		{9BEE17AA-197D-4C88-BB39-A1AFCEE952CB} = {93037DB4-D7D7-41B3-97C2-B8AA0E2CE7BF}
+		{FF082753-BD37-4BFE-8514-9CA89C4AB225} = {9BEE17AA-197D-4C88-BB39-A1AFCEE952CB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {403C711D-BF79-4140-AD10-15ABC0952005}
