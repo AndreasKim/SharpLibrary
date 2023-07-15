@@ -16,7 +16,7 @@ public class PatronHoldOverMax
     [Given(@"a regular patron")]
     public void GivenARegularPatron()
     {
-        _context.Patron = new Patron(PatronType.Regular);
+        _context.Patron = new Patron(Guid.NewGuid(), PatronType.Regular);
     }
 
     [Given(@"an available book")]

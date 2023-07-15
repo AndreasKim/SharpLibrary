@@ -7,9 +7,10 @@ namespace Lending.Domain.PatronAggregate;
 public class Patron
 {    
     private readonly List<Guid> _holdBookIds = new();
-    public Patron(PatronType type)
+    public Patron(Guid id, PatronType type)
     {
         Type = type;
+        Id = id;
     }
 
     public Guid Id { get; set; }

@@ -33,7 +33,7 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
     }
 
     public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
-    {  
+    {
         var patron = await _repository.Get<Patron>(request.PatronId);
         var book = await _repository.Get<Book>(request.BookId);
 
