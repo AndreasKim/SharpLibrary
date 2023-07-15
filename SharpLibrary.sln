@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.Infrastructure", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.UnitTests", "src\Lending\Tests\Lending.Tests.UnitTests\Lending.UnitTests.csproj", "{F2570521-0973-49E8-98E4-9502529B1600}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lending.IntegrationTests", "src\Lending\Tests\Lending.IntegrationTests\Lending.IntegrationTests.csproj", "{47686A90-666E-4DB1-AF9C-5AC364EE6F74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{F2570521-0973-49E8-98E4-9502529B1600}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2570521-0973-49E8-98E4-9502529B1600}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2570521-0973-49E8-98E4-9502529B1600}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47686A90-666E-4DB1-AF9C-5AC364EE6F74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47686A90-666E-4DB1-AF9C-5AC364EE6F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47686A90-666E-4DB1-AF9C-5AC364EE6F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47686A90-666E-4DB1-AF9C-5AC364EE6F74}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{9BEE17AA-197D-4C88-BB39-A1AFCEE952CB} = {93037DB4-D7D7-41B3-97C2-B8AA0E2CE7BF}
 		{FF082753-BD37-4BFE-8514-9CA89C4AB225} = {9BEE17AA-197D-4C88-BB39-A1AFCEE952CB}
 		{F2570521-0973-49E8-98E4-9502529B1600} = {9376673B-42BC-4B24-9F12-723FE1D6DC64}
+		{47686A90-666E-4DB1-AF9C-5AC364EE6F74} = {9376673B-42BC-4B24-9F12-723FE1D6DC64}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {403C711D-BF79-4140-AD10-15ABC0952005}

@@ -1,12 +1,14 @@
 ﻿using FastEndpoints;
+using Lending.Domain.BookAggregate;
+using Lending.Domain.PatronAggregate;
+using Lending.Infrastructure;
 
 namespace Lending.API.Features.PatronHold;
 
 public class PatronHoldRequest
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public int Age { get; set; }
+    public Guid PatronId { get; set; }
+    public Guid BookId { get; set; }
 }
 
 public class PatronHoldResponse
@@ -17,22 +19,26 @@ public class PatronHoldResponse
 
 public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 {
+    private readonly IRepository _repository;
+
+    public PatronHoldEndpoint(IRepository repository)
+    {
+        _repository = repository;
+    }
+
     public override void Configure()
     {
-        Post("myevent");
+        Post("api/patronhold");
         AllowAnonymous();
     }
 
-    public override async Task HandleAsync(PatronHoldRequest req, CancellationToken ct)
-    {
-        Console.WriteLine($"Hello world {req.FirstName}");
+    public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
+    {  
+        var patron = await _repository.Get<Patron>(request.PatronId);
+        var book = await _repository.Get<Book>(request.BookId);
 
-        var response = new PatronHoldResponse()
-        {
-            FullName = req.FirstName + " " + req.LastName,
-            IsOver18 = req.Age > 18
-        };
+        patron.HoldBook(book);
 
-        await SendAsync(response, cancellation: ct);
+        await SendOkAsync(ct);
     }
 }
