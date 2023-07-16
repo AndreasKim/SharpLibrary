@@ -36,3 +36,9 @@ Scenario: Regular Patron succeeds at placing an close ended hold
 		And an available book
 	When the patron places a hold on the book
 	Then the close ended bookhold suceeds
+
+Scenario: Regular Patron holds his 5th book
+	Given a regular patron
+		And an available book
+	When the patron tries to place his 5th hold
+	Then a MaximumHoldsReached Event will be send

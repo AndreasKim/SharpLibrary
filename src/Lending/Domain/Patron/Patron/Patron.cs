@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using FluentValidation;
+using Core.Domain;
 using FluentValidation.Results;
 using Lending.Domain.BookAggregate;
 
 namespace Lending.Domain.PatronAggregate;
 
-public class Patron
+public class Patron : Aggregate
 {    
     private readonly List<Guid> _holdBookIds = new();
     public Patron(Guid id, PatronType type)
@@ -23,8 +23,12 @@ public class Patron
     {
        var validationResult = new PoliciesPatronHold(1, book).Validate(this);
 
-        if(validationResult.IsValid)
+        if (validationResult.IsValid)
+        {
             _holdBookIds.Add(book.Id);
+            if (HoldBookIds.Count == 5)
+                DomainEvents.Add(new MaximumHoldsReachedEvent());
+        }
 
         return validationResult;
     }
