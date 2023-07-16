@@ -41,7 +41,7 @@ namespace Lending.IntegrationTests
         }
 
         [Theory, AutoData]
-        public async Task PatronHoldEndpoint_HoldUnAvailableBook_ReturnsValidationError(PatronHoldRequest request)
+        public async Task PatronHoldEndpoint_HoldUnAvailableBook_ReturnsInternalError(PatronHoldRequest request)
         {
             await _repo.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.UnAvailable, BookType.Circulating, HoldLifeType.CloseEnded));
             await _repo.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
@@ -68,7 +68,7 @@ namespace Lending.IntegrationTests
         }
 
         [Theory, AutoData]
-        public async Task PatronHoldEndpoint_HoldWithEmptyGuid_ReturnsInternalError(PatronHoldRequest request)
+        public async Task PatronHoldEndpoint_HoldWithEmptyGuid_ReturnsValidationError(PatronHoldRequest request)
         {
             var result = await Client.POSTAsync<PatronHoldEndpoint, PatronHoldRequest, PatronHoldResponse>(new() { PatronId = Guid.Empty, BookId = Guid.Empty });
 
