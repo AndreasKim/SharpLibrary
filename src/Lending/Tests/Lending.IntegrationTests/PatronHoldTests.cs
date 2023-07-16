@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoFixture.Xunit2;
+﻿using AutoFixture.Xunit2;
 using FastEndpoints;
 using FluentAssertions;
 using Lending.API;
@@ -13,24 +8,29 @@ using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using NJsonSchema.Validation.FormatValidators;
 
 namespace Lending.IntegrationTests
 {
     public class PatronHoldTests
     {
+        private Repository _repo;
+
+        public PatronHoldTests()
+        {
+            _repo = new Repository("localhost:6379");
+        }
+
         public static HttpClient Client { get; } = new WebApplicationFactory<AppSettings>()
             .WithWebHostBuilder(b =>
                 b.ConfigureServices(s =>
-                    s.AddScoped<IRepository, Repository>()))
+                    s.AddScoped<IRepository>(p => new Repository("localhost:6379"))))
             .CreateClient();
 
         [Theory, AutoData]
         public async Task PatronHoldEndpoint_HoldAvailableBook_Succeeds(PatronHoldRequest request)
         {
-            var repository = new Repository();
-            await repository.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded));
-            await repository.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
+            await _repo.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded));
+            await _repo.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
 
             var result = await Client.POSTAsync<PatronHoldEndpoint, PatronHoldRequest, PatronHoldResponse>(new() { PatronId = request.PatronId, BookId = request.BookId });
 
@@ -43,9 +43,8 @@ namespace Lending.IntegrationTests
         [Theory, AutoData]
         public async Task PatronHoldEndpoint_HoldUnAvailableBook_ReturnsValidationError(PatronHoldRequest request)
         {
-            var repository = new Repository();
-            await repository.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.UnAvailable, BookType.Circulating, HoldLifeType.CloseEnded));
-            await repository.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
+            await _repo.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.UnAvailable, BookType.Circulating, HoldLifeType.CloseEnded));
+            await _repo.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
 
             var result = await Client.POSTAsync<PatronHoldEndpoint, PatronHoldRequest, PatronHoldResponse>(new() { PatronId = request.PatronId, BookId = request.BookId });
 
@@ -58,8 +57,7 @@ namespace Lending.IntegrationTests
         [Theory, AutoData]
         public async Task PatronHoldEndpoint_HoldNonExistingBook_ReturnsInternalError(PatronHoldRequest request)
         {
-            var repository = new Repository();
-            await repository.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
+            await _repo.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
 
             var result = await Client.POSTAsync<PatronHoldEndpoint, PatronHoldRequest, PatronHoldResponse>(new() { PatronId = request.PatronId, BookId = request.BookId });
 

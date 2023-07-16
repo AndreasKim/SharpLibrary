@@ -12,7 +12,7 @@ builder
 
 // Add services to the container.
 builder.Services
-    .AddServiceDependencies(builder.Configuration)
+    .AddServiceDependencies(builder.Configuration, settings)
     .AddEndpointsApiExplorer()
     .AddControllers();
 

@@ -11,9 +11,9 @@ namespace Lending.Infrastructure
         private readonly IDatabase _db;
         private readonly JsonCommandsAsync _jsonCommand;
 
-        public Repository()
+        public Repository(string connection)
         {
-            var redis = ConnectionMultiplexer.Connect("localhost:6379"); // FIXME: Add configuration handling
+            var redis = ConnectionMultiplexer.Connect(connection);
             _db = redis.GetDatabase();
             _jsonCommand = new JsonCommandsAsync(_db);
         }

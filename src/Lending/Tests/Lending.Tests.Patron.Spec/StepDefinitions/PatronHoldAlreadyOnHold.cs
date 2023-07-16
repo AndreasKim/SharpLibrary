@@ -21,6 +21,6 @@ public class PatronHoldAlreadyOnHold
     [When(@"the patron tries to hold the book")]
     public void WhenThePatronTriesToHoldTheBook()
     {
-        _context.HoldAction = () => _context.Patron.HoldBook(_context.Book);
+        _context.Result = _context.Patron.HoldBook(_context.Book);
     }
 }

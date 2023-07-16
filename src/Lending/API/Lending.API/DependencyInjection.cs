@@ -7,6 +7,7 @@ using System.Diagnostics.Metrics;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Lending.API.IntegrationEvents.Handlers;
+using Lending.Infrastructure;
 using Man.Dapr.Sidekick;
 using OpenTelemetry;
 using OpenTelemetry.Metrics;
@@ -21,7 +22,7 @@ public static class DependencyInjection
     public static readonly string AppId = nameof(Lending).ToLower();
     public const string ServiceVersion = "1.0.0";
 
-    public static IServiceCollection AddServiceDependencies(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddServiceDependencies(this IServiceCollection services, IConfiguration configuration, AppSettings settings)
     {
         services.AddDaprClient();
         services.AddDaprSidekick(configuration, p => p.Sidecar =
@@ -34,6 +35,7 @@ public static class DependencyInjection
 
         services.AddFastEndpoints();
         services.AddScoped<Handler>();
+        services.AddScoped<IRepository>(p => new Repository(settings.ConnectionStrings.DefaultConnection));
  
         services.AddSingleton(new ActivitySource(AppId));
 

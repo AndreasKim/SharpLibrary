@@ -6,7 +6,7 @@ namespace Lending.API;
 
 public class AppSettings
 {
-    public Connectionstrings? ConnectionStrings { get; set; }
+    public Connectionstrings ConnectionStrings { get; set; }
     public Serilog? Serilog { get; set; }
     public string? AllowedHosts { get; set; }
     public string? SeqServerUrl { get; set; }
@@ -15,7 +15,7 @@ public class AppSettings
 
 public class Connectionstrings
 {
-    public string? DefaultConnection { get; set; }
+    public string DefaultConnection { get; set; }
 }
 
 public class Serilog

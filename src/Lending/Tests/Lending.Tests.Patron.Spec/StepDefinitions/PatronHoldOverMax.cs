@@ -35,12 +35,13 @@ public class PatronHoldOverMax
             _context.Patron.HoldBook(_context.Book);
         }
 
-        _context.HoldAction = () => _context.Patron.HoldBook(_context.Book);
+        _context.Result = _context.Patron.HoldBook(_context.Book);
     }
 
     [Then(@"the close ended bookhold fails")]
     public void ThenTheCloseEndedBookholdFails()
     {
-        _context.HoldAction.Should().Throw<ValidationException>();
+        _context.Result.IsValid.Should().BeFalse();
+        _context.Result.Errors.Should().NotBeEmpty();
     }
 }
