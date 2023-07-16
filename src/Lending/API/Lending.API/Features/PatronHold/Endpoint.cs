@@ -1,4 +1,5 @@
 ﻿using FastEndpoints;
+using FluentValidation.Results;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
@@ -13,8 +14,8 @@ public class PatronHoldRequest
 
 public class PatronHoldResponse
 {
-    public string FullName { get; set; }
-    public bool IsOver18 { get; set; }
+    public List<ValidationFailure> ValidationErrors { get; set; } = new();
+    public bool IsSuccess { get; set; }
 }
 
 public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
@@ -37,8 +38,14 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
         var patron = await _repository.Get<Patron>(request.PatronId);
         var book = await _repository.Get<Book>(request.BookId);
 
-        patron.HoldBook(book);
+        var validationResult = from p in patron
+                               from b in book
+                               select p.HoldBook(b);
 
-        await SendOkAsync(ct);
+        var result = validationResult
+            .Some(p => new PatronHoldResponse() { IsSuccess = p.IsValid, ValidationErrors = p.Errors })
+            .None(() => new PatronHoldResponse() { IsSuccess = false });
+
+        await SendAsync(result, result.IsSuccess ? 200 : 500, ct);
     }
 }

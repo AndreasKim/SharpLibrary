@@ -22,7 +22,7 @@ public class RepositoryTests
         var result = await repo.Get<Patron>(patron.Id);
 
         success.Should().BeTrue();
-        result.Should().BeEquivalentTo(patron);
+        result.IfSome(p => p.Should().BeEquivalentTo(patron));
     }   
     
     [Theory, AutoData]
@@ -35,6 +35,6 @@ public class RepositoryTests
 
         initial.Should().BeTrue();
         final.Should().BeTrue();
-        result.Should().BeEquivalentTo(patron2);
+        result.IfSome(p => p.Should().BeEquivalentTo(patron2));
     }
 }

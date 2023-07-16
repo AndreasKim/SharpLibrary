@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using FluentValidation;
+using FluentValidation.Results;
 using Lending.Domain.BookAggregate;
 
 namespace Lending.Domain.PatronAggregate;
@@ -18,10 +19,13 @@ public class Patron
     public ReadOnlyCollection<Guid> HoldBookIds => _holdBookIds.AsReadOnly();
     public Dictionary<Guid, int> OverDueCheckouts { get; private set; } = new();
 
-    public void HoldBook(Book book)
+    public ValidationResult HoldBook(Book book)
     {
-        new PoliciesPatronHold(1, book).ValidateAndThrow(this);
+       var validationResult = new PoliciesPatronHold(1, book).Validate(this);
 
-        _holdBookIds.Add(book.Id);
+        if(validationResult.IsValid)
+            _holdBookIds.Add(book.Id);
+
+        return validationResult;
     }
 }

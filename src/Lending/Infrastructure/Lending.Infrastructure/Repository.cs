@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using LanguageExt;
+using static LanguageExt.Prelude;
 using NRedisStack;
 using StackExchange.Redis;
 
@@ -11,7 +13,7 @@ namespace Lending.Infrastructure
 
         public Repository()
         {
-            var redis = ConnectionMultiplexer.Connect("localhost:6379");
+            var redis = ConnectionMultiplexer.Connect("localhost:6379"); // FIXME: Add configuration handling
             _db = redis.GetDatabase();
             _jsonCommand = new JsonCommandsAsync(_db);
         }
@@ -21,15 +23,18 @@ namespace Lending.Infrastructure
             return await _jsonCommand.SetAsync(new RedisKey(id.ToString()), new RedisValue("$"), value);
         }
 
-        public async Task<T?> Get<T>(Guid id)
+        public async Task<Option<T>> Get<T>(Guid id)
         {
-            var result = await _jsonCommand.GetAsync(new RedisKey(id.ToString()));
-            if (result == null)
-                return default;
+            var exists = await _db.KeyExistsAsync(new RedisKey(id.ToString()));
 
-            return JsonSerializer.Deserialize<T>(result.ToString()!);
+            if(exists)
+            {
+                var result = await _jsonCommand.GetAsync(new RedisKey(id.ToString()));
+                var resultStr = JsonSerializer.Deserialize<T>(result.ToString());
+                return Some(resultStr);
+            }
+            else 
+                return None;
         }
-
-
     }
 }

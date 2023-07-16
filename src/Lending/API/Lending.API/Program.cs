@@ -1,5 +1,6 @@
 using FastEndpoints;
 using Lending.API;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
