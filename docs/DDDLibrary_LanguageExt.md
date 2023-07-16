@@ -37,7 +37,7 @@ The LanguageExt library extends the capabilities of C# by adding features such a
 With LanguageExt, you can leverage functional programming techniques to write code that is more declarative, easier to reason about, and less prone to errors. It encourages immutability, avoids null references, provides tools for error handling, and promotes the use of pure functions.
 
 In particular, the use of Option<T> allows me to get rid of the usual nullable problem, which will arise when the Id does not exist. 
-Instead I can now return a result wrapped in a Some() class when there is a result. Otherwise, I return a None class.
+Instead I can now return a result wrapped in a `Some()` class when there is a result. Otherwise, I return a `None` class.
 This will force the None branch to be handled in the upper layers in order to finally unwrap the response.
 
 ## FastEndpoints
@@ -90,7 +90,7 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 
 On the final enpoint I will use FastEndpoints to set up the endpoint in a REPR fashion (Request-Endpoint-Response). Even though opinionated, this library will allow you to set up well performing endpoints that also suprisingly work well with e.g. Dapr. 
 
-Since the repository will now return an Option<T>, we will now need to process their result in a more functional way. For the induction of the method HoldBook(), this will look like so:
+Since the repository will now return an Option<T>, we will now need to process their result in a more functional way. For the induction of the method `HoldBook()`, this will look like so:
 
 ```c#
         var validationResult = from p in patron
@@ -98,7 +98,7 @@ Since the repository will now return an Option<T>, we will now need to process t
                                select p.HoldBook(b);
 ```
 
-With the help of `from` the value of e.g. `patron` will now be unwrapped. If the result is None, it will shortcut the result of the whole call to None.
+With the help of `from` the value of e.g. `patron` will now be unwrapped. If the result is `None`, it will shortcut the result of the whole call to `None`.
 The result of the whole call will again be an Option<T>.
 
 Finally, I need to unwrap the result to map it on my response:
@@ -109,4 +109,4 @@ Finally, I need to unwrap the result to map it on my response:
             .None(() => new PatronHoldResponse() { IsSuccess = false });
 
 ```
-As you can see the Some and the None case are handled explicitly and depending on the current state of the input, the appropiate response will we created.
+As you can see the `Some` and the `None` case are handled explicitly and depending on the current state of the input, the appropiate response will we created.
