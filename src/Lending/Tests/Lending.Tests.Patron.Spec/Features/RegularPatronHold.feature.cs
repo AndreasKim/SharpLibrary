@@ -19,7 +19,7 @@ namespace PatronAggregate.Spec.Features
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class PatronHoldFeature : object, Xunit.IClassFixture<PatronHoldFeature.FixtureData>, System.IDisposable
+    public partial class RegularPatronHoldFeature : object, Xunit.IClassFixture<RegularPatronHoldFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
@@ -28,10 +28,10 @@ namespace PatronAggregate.Spec.Features
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "PatronHold.feature"
+#line 1 "RegularPatronHold.feature"
 #line hidden
         
-        public PatronHoldFeature(PatronHoldFeature.FixtureData fixtureData, PatronAggregate_Spec_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public RegularPatronHoldFeature(RegularPatronHoldFeature.FixtureData fixtureData, PatronAggregate_Spec_XUnitAssemblyFixture assemblyFixture, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -40,7 +40,7 @@ namespace PatronAggregate.Spec.Features
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "PatronHold", null, ProgrammingLanguage.CSharp, featureTags);
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features", "Regular PatronHold", null, ProgrammingLanguage.CSharp, featureTags);
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -81,7 +81,7 @@ namespace PatronAggregate.Spec.Features
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron holds more than 5 books")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron holds more than 5 books")]
         public void RegularPatronHoldsMoreThan5Books()
         {
@@ -115,7 +115,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron tries to hold a book that is already on hold")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron tries to hold a book that is already on hold")]
         public void RegularPatronTriesToHoldABookThatIsAlreadyOnHold()
         {
@@ -149,7 +149,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron has 2 overdue checkouts at library branch")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron has 2 overdue checkouts at library branch")]
         public void RegularPatronHas2OverdueCheckoutsAtLibraryBranch()
         {
@@ -186,7 +186,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron tries to place a restriced book on hold")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron tries to place a restriced book on hold")]
         public void RegularPatronTriesToPlaceARestricedBookOnHold()
         {
@@ -220,7 +220,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron tried an open ended hold")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron tried an open ended hold")]
         public void RegularPatronTriedAnOpenEndedHold()
         {
@@ -254,7 +254,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron succeeds at placing an close ended hold")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron succeeds at placing an close ended hold")]
         public void RegularPatronSucceedsAtPlacingAnCloseEndedHold()
         {
@@ -288,7 +288,7 @@ this.ScenarioInitialize(scenarioInfo);
         }
         
         [Xunit.SkippableFactAttribute(DisplayName="Regular Patron holds his 5th book")]
-        [Xunit.TraitAttribute("FeatureTitle", "PatronHold")]
+        [Xunit.TraitAttribute("FeatureTitle", "Regular PatronHold")]
         [Xunit.TraitAttribute("Description", "Regular Patron holds his 5th book")]
         public void RegularPatronHoldsHis5ThBook()
         {
@@ -328,12 +328,12 @@ this.ScenarioInitialize(scenarioInfo);
             
             public FixtureData()
             {
-                PatronHoldFeature.FeatureSetup();
+                RegularPatronHoldFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                PatronHoldFeature.FeatureTearDown();
+                RegularPatronHoldFeature.FeatureTearDown();
             }
         }
     }

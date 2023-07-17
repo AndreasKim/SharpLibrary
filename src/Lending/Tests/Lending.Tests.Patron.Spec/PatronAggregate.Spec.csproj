@@ -24,4 +24,19 @@
     <ProjectReference Include="..\..\Domain\Patron\Patron\PatronAggregate.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Compile Update="Features\ResearcherPatronHold.feature.cs">
+      <DependentUpon>ResearcherPatronHold.feature</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <SpecFlowFeatureFiles Update="Features\ResearcherPatronHold.feature">
+      <Visible>$(UsingMicrosoftNETSdk)</Visible>
+      <CodeBehindFile>%(RelativeDir)%(Filename).feature$(DefaultLanguageSourceExtension)</CodeBehindFile>
+    </SpecFlowFeatureFiles>
+  </ItemGroup>
+
 </Project>

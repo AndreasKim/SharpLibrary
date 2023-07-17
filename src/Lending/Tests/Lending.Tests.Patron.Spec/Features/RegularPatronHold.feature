@@ -1,4 +1,4 @@
-﻿Feature: PatronHold
+﻿Feature: Regular PatronHold
 
 Scenario: Regular Patron holds more than 5 books
 	Given a regular patron
