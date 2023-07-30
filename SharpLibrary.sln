@@ -43,7 +43,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.Infrastructure", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.UnitTests", "src\Lending\Tests\Lending.Tests.UnitTests\Lending.UnitTests.csproj", "{F2570521-0973-49E8-98E4-9502529B1600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lending.IntegrationTests", "src\Lending\Tests\Lending.IntegrationTests\Lending.IntegrationTests.csproj", "{47686A90-666E-4DB1-AF9C-5AC364EE6F74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lending.IntegrationTests", "src\Lending\Tests\Lending.IntegrationTests\Lending.IntegrationTests.csproj", "{47686A90-666E-4DB1-AF9C-5AC364EE6F74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

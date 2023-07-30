@@ -1,4 +1,5 @@
 using System;
+using PatronAggregate.Events;
 using TechTalk.SpecFlow;
 
 namespace PatronAggregate.Spec.StepDefinitions

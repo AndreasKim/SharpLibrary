@@ -2,6 +2,7 @@
 using Core.Domain;
 using FluentValidation.Results;
 using Lending.Domain.BookAggregate;
+using PatronAggregate.Events;
 
 namespace Lending.Domain.PatronAggregate;
 
@@ -26,6 +27,8 @@ public class Patron : Aggregate
         if (validationResult.IsValid)
         {
             _holdBookIds.Add(book.Id);
+            DomainEvents.Add(new BookPlacedOnHoldEvent());
+
             if (HoldBookIds.Count == 5)
                 DomainEvents.Add(new MaximumHoldsReachedEvent());
         }

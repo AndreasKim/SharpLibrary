@@ -1,9 +1,12 @@
-﻿using FastEndpoints;
+﻿using Dapr.Client;
+using FastEndpoints;
 using FluentValidation.Results;
 using LanguageExt;
+using LanguageExt.Pipes;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
+using NRedisStack.Search;
 
 namespace Lending.API.Features.PatronHold;
 
@@ -23,10 +26,12 @@ public class PatronHoldResponse
 public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 {
     private readonly IRepository _repository;
+    private readonly DaprClient _daprClient;
 
-    public PatronHoldEndpoint(IRepository repository)
+    public PatronHoldEndpoint(IRepository repository, DaprClient daprClient)
     {
         _repository = repository;
+        _daprClient = daprClient;
     }
 
     public override void Configure()

@@ -1,7 +1,6 @@
 ﻿using Core.Domain;
 
-namespace Lending.Domain.PatronAggregate;
-
+namespace PatronAggregate.Events;
 
 public class MaximumHoldsReachedEvent : IDomainEvent
 {
