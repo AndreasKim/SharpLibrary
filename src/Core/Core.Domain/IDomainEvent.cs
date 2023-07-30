@@ -1,6 +1,6 @@
 ﻿namespace Core.Domain
 {
-    public class IDomainEvent
+    public record IDomainEvent
     {
     }
 }

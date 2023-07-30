@@ -1,12 +1,12 @@
-﻿using Dapr.Client;
+﻿using Dapr.Actors;
+using Dapr.Actors.Client;
 using FastEndpoints;
 using FluentValidation.Results;
 using LanguageExt;
-using LanguageExt.Pipes;
+using Lending.API.Orchestrator;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
-using NRedisStack.Search;
 
 namespace Lending.API.Features.PatronHold;
 
@@ -26,12 +26,12 @@ public class PatronHoldResponse
 public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 {
     private readonly IRepository _repository;
-    private readonly DaprClient _daprClient;
+    private readonly IActorProxyFactory _actorProxyFactory;
 
-    public PatronHoldEndpoint(IRepository repository, DaprClient daprClient)
+    public PatronHoldEndpoint(IRepository repository, IActorProxyFactory actorProxyFactory)
     {
         _repository = repository;
-        _daprClient = daprClient;
+        _actorProxyFactory = actorProxyFactory;
     }
 
     public override void Configure()
@@ -42,17 +42,14 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 
     public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
     {
-        var patron = await _repository.Get<Patron>(request.PatronId);
-        var book = await _repository.Get<Book>(request.BookId);
+        var actorId = new ActorId(request.BookId.ToString()); // FIXME: use real BookId class
+        var actor = _actorProxyFactory.CreateActorProxy<ILendingProcessActor>(
+            actorId,
+            nameof(ILendingProcessActor));
 
-        var validationResult = from p in patron
-                               from b in book
-                               select p.HoldBook(b);
-
-        var result = validationResult
-            .Some(p => new PatronHoldResponse() { IsSuccess = p.IsValid, ValidationErrors = p.Errors, StatusCode = p.IsValid ? 200 : 400 })
-            .None(() => new PatronHoldResponse() { IsSuccess = false, StatusCode = 500 });
+        var result = await actor.PlaceHold(request);
 
         await SendAsync(result, result.StatusCode, ct);
     }
+
 }

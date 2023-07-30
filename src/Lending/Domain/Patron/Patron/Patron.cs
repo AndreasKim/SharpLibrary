@@ -27,7 +27,7 @@ public class Patron : Aggregate
         if (validationResult.IsValid)
         {
             _holdBookIds.Add(book.Id);
-            DomainEvents.Add(new BookPlacedOnHoldEvent());
+            DomainEvents.Add(new BookPlacedOnHoldEvent(book.Id));
 
             if (HoldBookIds.Count == 5)
                 DomainEvents.Add(new MaximumHoldsReachedEvent());

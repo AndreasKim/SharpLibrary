@@ -2,6 +2,14 @@
 
 namespace PatronAggregate.Events;
 
-public class BookPlacedOnHoldEvent : IDomainEvent
+public record BookPlacedOnHoldEvent : IDomainEvent
 {
+    private readonly Guid _id;
+
+    public BookPlacedOnHoldEvent(Guid id)
+    {
+        _id = id;
+    }
+
+    public Guid Id => _id;
 }
