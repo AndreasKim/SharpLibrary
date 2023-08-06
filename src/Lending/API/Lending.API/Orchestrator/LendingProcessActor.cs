@@ -1,5 +1,4 @@
 ﻿using Dapr.Actors.Runtime;
-using FastEndpoints;
 using FluentValidation.Results;
 using LanguageExt;
 using Lending.API.Features.PatronHold;
@@ -12,12 +11,22 @@ namespace Lending.API.Orchestrator;
 public class LendingProcessActor : Actor, ILendingProcessActor
 {
     private readonly IRepository _repository;
-    private readonly IEventBus _eventBus;
 
-    public LendingProcessActor(ActorHost host, IRepository repository, IEventBus eventBus) : base(host)
+    public LendingProcessActor(ActorHost host, IRepository repository) : base(host)
     {
         _repository = repository;
-        _eventBus = eventBus;
+    }
+
+    protected override Task OnActivateAsync()
+    {
+        Console.WriteLine($"Activating actor id: {Id}");
+        return Task.CompletedTask;
+    }
+
+    protected override Task OnDeactivateAsync()
+    {
+        Console.WriteLine($"Deactivating actor id: {Id}");
+        return Task.CompletedTask;
     }
 
     public async Task<PatronHoldResponse> PlaceHold(PatronHoldRequest request)
@@ -39,7 +48,7 @@ public class LendingProcessActor : Actor, ILendingProcessActor
 
     private Option<ValidationResult> PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
     {
-        holdResult.Patron.DomainEvents.ForEach(p => _eventBus.PublishAsync(p));
+        // holdResult.Patron.DomainEvents.ForEach(p => _eventBus.PublishAsync(p));
 
         return holdResult.Validation;
     }

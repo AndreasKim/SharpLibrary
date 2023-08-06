@@ -2,7 +2,7 @@
 
 namespace Core.Application.Interfaces;
 
-public interface IEventBus
+public interface ITTEventBus
 {
     Task PublishAsync(IntegrationEvent integrationEvent);
 }

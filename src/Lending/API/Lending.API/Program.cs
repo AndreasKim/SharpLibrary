@@ -1,6 +1,4 @@
-using FastEndpoints;
 using Lending.API;
-using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,14 +10,16 @@ builder
 
 // Add services to the container.
 builder.Services
-    .AddServiceDependencies(builder.Configuration, settings)
+    .AddServiceDependencies(settings)
     .AddEndpointsApiExplorer()
     .AddControllers();
 
-var app = builder.Build();
+if (builder.Environment.EnvironmentName == Environments.Development)
+{
+    builder.Services.AddSidekick(builder.Configuration);
+}
 
-app.UseFastEndpoints();
-app.UseDefaultExceptionHandler();
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -38,5 +38,6 @@ app.UseAuthorization();
 app.UseCloudEvents();
 app.MapControllers();
 app.MapSubscribeHandler();
+app.MapActorsHandlers();
 
 app.Run();

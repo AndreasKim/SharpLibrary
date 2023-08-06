@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.Application;
 
-public class DaprEventBus : IEventBus
+public class DaprEventBus : ITTEventBus
 {
     private const string PubSubName = "sharplibrary-pubsub";
 

@@ -4,9 +4,8 @@
 
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
-using FastEndpoints;
-using FastEndpoints.Swagger;
 using Lending.API.IntegrationEvents.Handlers;
+using Lending.API.Orchestrator;
 using Lending.Infrastructure;
 using Man.Dapr.Sidekick;
 using OpenTelemetry;
@@ -14,6 +13,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Serilog;
+using FluentValidation;
 
 namespace Lending.API;
 
@@ -22,25 +22,38 @@ public static class DependencyInjection
     public static readonly string AppId = nameof(Lending).ToLower();
     public const string ServiceVersion = "1.0.0";
 
-    public static IServiceCollection AddServiceDependencies(this IServiceCollection services, IConfiguration configuration, AppSettings settings)
+    public static IServiceCollection AddServiceDependencies(this IServiceCollection services, AppSettings settings)
     {
         services.AddDaprClient();
-        services.AddDaprSidekick(configuration, p => p.Sidecar =
-            new DaprSidecarOptions()
-            {
-                AppId = AppId,
-                ComponentsDirectory = "..\\..\\..\\dapr\\components",
-                ConfigFile = "..\\..\\..\\dapr"
-            });
+        services.AddActors(options =>
+        {
+            options.ReentrancyConfig.Enabled = true;
+            options.ReentrancyConfig.MaxStackDepth = 10;
+            options.Actors.RegisterActor<LendingProcessActor>();
+        });
 
-        services.AddFastEndpoints();
         services.AddScoped<Handler>();
         services.AddScoped<IRepository>(p => new Repository(settings.ConnectionStrings.DefaultConnection));
- 
+
+        services.AddValidatorsFromAssemblyContaining<Program>();
         services.AddSingleton(new ActivitySource(AppId));
 
         return services;
+    }  
+    
+    public static IServiceCollection AddSidekick(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDaprSidekick(configuration, p => p.Sidecar =
+                new DaprSidecarOptions()
+                {
+                    AppId = AppId,
+                    ComponentsDirectory = "..\\..\\..\\..\\dapr\\components",
+                    ConfigFile = "..\\..\\..\\..\\dapr"
+                });
+
+        return services;
     }
+
     public static WebApplicationBuilder AddAppSettings(this WebApplicationBuilder builder, out AppSettings settings)
     {
         settings = new AppSettings();
@@ -109,22 +122,22 @@ public static class DependencyInjection
 
     public static WebApplicationBuilder AddCustomSwagger(this WebApplicationBuilder builder)
     {
-        builder.Services.SwaggerDocument(c =>
-        {
-            c.DocumentSettings = s =>
-            {
-                s.Title = $"SharpLibrary - {AppId}";
-                s.Version = "v1";
-            };
-        });
+        //builder.Services.SwaggerDocument(c =>
+        //{
+        //    c.DocumentSettings = s =>
+        //    {
+        //        s.Title = $"SharpLibrary - {AppId}";
+        //        s.Version = "v1";
+        //    };
+        //});
         return builder;
     }
     public static void UseCustomSwagger(this WebApplication app)
     {
-        app.UseOpenApi();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AppId} V1");
-        });
+        //app.UseOpenApi();
+        //app.UseSwaggerUI(c =>
+        //{
+        //    c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AppId} V1");
+        //});
     }
 }
