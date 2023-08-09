@@ -14,8 +14,14 @@ using Man.Dapr.Sidekick;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Dapr.Client;
-using Wrapr;
+
 using Microsoft.Extensions.Hosting;
+using AspNetCore.Proxy;
+using Microsoft.AspNetCore;
+using Microsoft.Extensions.Logging;
+using YamlDotNet.Core.Tokens;
+using AspNetCore.Proxy.Builders;
+using Microsoft.AspNetCore.Builder;
 
 namespace Lending.IntegrationTests
 {
@@ -37,16 +43,24 @@ namespace Lending.IntegrationTests
                     s.AddDaprSidekick(p => p.Sidecar =
                         new DaprSidecarOptions()
                         {
-                            AppId = "lending",
+                            AppId = nameof(Lending).ToLower(),
                             ComponentsDirectory = "D:\\C#\\SharpLibrary\\dapr\\components",
                             ConfigFile = "D:\\C#\\SharpLibrary\\dapr"
                         });
                 }))
-            .CreateDefaultClient();
+            .CreateClient();
 
         [Theory, AutoData]
         public async Task PatronHoldEndpoint_HoldAvailableBook_Succeeds(PatronHoldRequest request)
         {
+            new ApplicationBuilder().RunProxy(p => p.UseHttp((context, args) => Client.PostAsJsonAsync(context.Request.Path, context.Request.Body, default)))
+            var proxiedServerTask = WebHost.CreateDefaultBuilder()
+                .ConfigureServices(s => s.AddHttpClient("myClientName").AddTypedClient(p => Client))
+                .SuppressStatusMessages(true)                
+                .ConfigureLogging(logging => logging.ClearProviders())
+                .ConfigureKestrel(options => options.ListenLocalhost(81))
+                .Build().RunAsync();
+
             await _repo.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded));
             await _repo.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
 
