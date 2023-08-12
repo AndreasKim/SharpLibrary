@@ -2,6 +2,6 @@
 
 namespace PatronAggregate.Events;
 
-public class MaximumHoldsReachedEvent : IDomainEvent
+public record MaximumHoldsReachedEvent : IDomainEvent
 {
 }

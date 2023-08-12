@@ -1,22 +1,19 @@
-﻿using Dapr.Actors;
-using Dapr.Actors.Client;
+﻿using Core.Domain;
 using FastEndpoints;
 using FluentValidation.Results;
-using LanguageExt;
 using Lending.API.Orchestrator;
-using Lending.Domain.BookAggregate;
-using Lending.Domain.PatronAggregate;
-using Lending.Infrastructure;
 
 namespace Lending.API.Features.PatronHold;
 
-public class PatronHoldRequest
+[GenerateSerializer, Immutable]
+public record PatronHoldRequest
 {
     public Guid PatronId { get; set; }
     public Guid BookId { get; set; }
 }
 
-public class PatronHoldResponse
+[GenerateSerializer, Immutable]
+public record PatronHoldResponse
 {
     public List<ValidationFailure> ValidationErrors { get; set; } = new();
     public bool IsSuccess { get; set; }
@@ -25,13 +22,11 @@ public class PatronHoldResponse
 
 public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 {
-    private readonly IRepository _repository;
-    private readonly IActorProxyFactory _actorProxyFactory;
+    private readonly IClusterClient _clusterClient;
 
-    public PatronHoldEndpoint(IRepository repository, IActorProxyFactory actorProxyFactory)
+    public PatronHoldEndpoint(IClusterClient clusterClient)
     {
-        _repository = repository;
-        _actorProxyFactory = actorProxyFactory;
+        _clusterClient = clusterClient;
     }
 
     public override void Configure()
@@ -42,10 +37,7 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 
     public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
     {
-        var actorId = new ActorId(request.BookId.ToString()); // FIXME: use real BookId class
-        var actor = _actorProxyFactory.CreateActorProxy<ILendingProcessActor>(
-            actorId,
-            nameof(ILendingProcessActor));
+        var actor = _clusterClient.GetGrain<ILendingProcessActor>(request.PatronId);
 
         var result = await actor.PlaceHold(request);
 

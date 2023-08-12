@@ -7,11 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapr.Actors" Version="1.11.0" />
     <PackageReference Include="Dapr.AspNetCore" Version="1.11.0" />
     <PackageReference Include="FastEndpoints" Version="5.11.0" />
     <PackageReference Include="FastEndpoints.Swagger" Version="5.11.0" />
+    <PackageReference Include="Man.Dapr.Sidekick" Version="1.2.1" />
     <PackageReference Include="Man.Dapr.Sidekick.AspNetCore" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Orleans.Core" Version="7.2.1" />
+    <PackageReference Include="Microsoft.Orleans.Server" Version="7.2.1" />
     <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.4.0-rc.1" />
     <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0-rc.1" />
     <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.10" />

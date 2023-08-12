@@ -1,5 +1,4 @@
-﻿using Dapr.Actors.Runtime;
-using FastEndpoints;
+﻿using Core.Application.Interfaces;
 using FluentValidation.Results;
 using LanguageExt;
 using Lending.API.Features.PatronHold;
@@ -9,12 +8,12 @@ using Lending.Infrastructure;
 
 namespace Lending.API.Orchestrator;
 
-public class LendingProcessActor : Actor, ILendingProcessActor
+public class LendingProcessActor : Grain, ILendingProcessActor
 {
     private readonly IRepository _repository;
-    private readonly IEventBus _eventBus;
+    private readonly IEBus _eventBus;
 
-    public LendingProcessActor(ActorHost host, IRepository repository, IEventBus eventBus) : base(host)
+    public LendingProcessActor(IRepository repository, IEBus eventBus)
     {
         _repository = repository;
         _eventBus = eventBus;

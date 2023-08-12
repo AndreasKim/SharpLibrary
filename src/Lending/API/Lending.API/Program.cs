@@ -1,6 +1,5 @@
 using FastEndpoints;
 using Lending.API;
-using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +14,13 @@ builder.Services
     .AddServiceDependencies(builder.Configuration, settings)
     .AddEndpointsApiExplorer()
     .AddControllers();
+
+builder.Host.UseOrleans(silo =>
+    {
+        silo.UseLocalhostClustering()
+            .ConfigureLogging(logging => logging.AddConsole());
+    })
+    .UseConsoleLifetime();
 
 var app = builder.Build();
 

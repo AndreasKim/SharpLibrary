@@ -1,9 +1,8 @@
-﻿using Dapr.Actors;
-using Lending.API.Features.PatronHold;
+﻿using Lending.API.Features.PatronHold;
 
 namespace Lending.API.Orchestrator;
 
-public interface ILendingProcessActor : IActor
+public interface ILendingProcessActor : IGrainWithGuidKey
 {
     Task<PatronHoldResponse> PlaceHold(PatronHoldRequest request);
 }

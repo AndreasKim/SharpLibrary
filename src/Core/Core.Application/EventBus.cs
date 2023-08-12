@@ -1,21 +1,24 @@
 using Core.Application.Events;
 using Core.Application.Interfaces;
+using Core.Domain;
 using Dapr.Client;
 using Microsoft.Extensions.Logging;
 
 namespace Core.Application;
 
-public class DaprEventBus : IEventBus
+public class EventBus : IEBus
 {
     private const string PubSubName = "sharplibrary-pubsub";
 
     private readonly DaprClient _dapr;
     private readonly ILogger _logger;
+    private readonly List<IDomainEventHandler> _handlers;
 
-    public DaprEventBus(DaprClient dapr, ILogger<DaprEventBus> logger)
+    public EventBus(DaprClient dapr, ILogger<EventBus> logger, List<IDomainEventHandler> handlers)
     {
         _dapr = dapr;
         _logger = logger;
+        _handlers = handlers;
     }
 
     public async Task PublishAsync(IntegrationEvent integrationEvent)
@@ -32,5 +35,10 @@ public class DaprEventBus : IEventBus
         // which can be accomplished by casting the event to dynamic. This ensures
         // that all event fields are properly serialized.
         await _dapr.PublishEventAsync(PubSubName, topicName, (object)integrationEvent);
+    }  
+    
+    public async Task PublishAsync(IDomainEvent domainEvent)
+    {
+
     }
 }
