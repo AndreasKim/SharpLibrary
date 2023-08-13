@@ -1,7 +1,7 @@
-﻿using Core.Domain;
-using FastEndpoints;
+﻿using FastEndpoints;
 using FluentValidation.Results;
 using Lending.API.Orchestrator;
+using Orleans.Runtime;
 
 namespace Lending.API.Features.PatronHold;
 
@@ -37,7 +37,7 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 
     public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
     {
-        var actor = _clusterClient.GetGrain<ILendingProcessActor>(request.PatronId);
+        var actor = _clusterClient.GetGrain<IPatronActor>(request.PatronId);
 
         var result = await actor.PlaceHold(request);
 

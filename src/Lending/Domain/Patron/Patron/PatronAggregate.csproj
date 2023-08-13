@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.6.0" />
+    <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="7.2.1" />
   </ItemGroup>
 
   <ItemGroup>

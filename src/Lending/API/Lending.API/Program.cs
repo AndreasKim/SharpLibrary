@@ -11,6 +11,7 @@ builder
 
 // Add services to the container.
 builder.Services
+    .AddActorDictionary()
     .AddServiceDependencies(builder.Configuration, settings)
     .AddEndpointsApiExplorer()
     .AddControllers();

@@ -2,7 +2,7 @@
 
 namespace Lending.API.Orchestrator;
 
-public interface ILendingProcessActor : IGrainWithGuidKey
+public interface IPatronActor : IGrainWithGuidKey
 {
     Task<PatronHoldResponse> PlaceHold(PatronHoldRequest request);
 }

@@ -1,6 +1,7 @@
 ﻿namespace Core.Domain
 {
-    public record IDomainEvent
+    public interface IDomainActorEvent
     {
+        Guid ActorId { get; }
     }
 }

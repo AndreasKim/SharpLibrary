@@ -2,6 +2,6 @@
 {
     public interface IAggregate
     {
-        List<IDomainEvent> DomainEvents { get; }
+        List<IDomainActorEvent> DomainEvents { get; }
     }
 }

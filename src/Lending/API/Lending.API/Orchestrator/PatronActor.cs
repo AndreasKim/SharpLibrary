@@ -8,12 +8,12 @@ using Lending.Infrastructure;
 
 namespace Lending.API.Orchestrator;
 
-public class LendingProcessActor : Grain, ILendingProcessActor
+public class PatronActor : Grain, IPatronActor
 {
     private readonly IRepository _repository;
     private readonly IEBus _eventBus;
 
-    public LendingProcessActor(IRepository repository, IEBus eventBus)
+    public PatronActor(IRepository repository, IEBus eventBus)
     {
         _repository = repository;
         _eventBus = eventBus;
@@ -29,14 +29,14 @@ public class LendingProcessActor : Grain, ILendingProcessActor
                          select (p.HoldBook(b), p);
 
         var result = holdResult
-            .Bind(PublishEvents)
+            .Map(PublishEvents)
             .Some(p => new PatronHoldResponse() { IsSuccess = p.IsValid, ValidationErrors = p.Errors, StatusCode = p.IsValid ? 200 : 400 })
             .None(() => new PatronHoldResponse() { IsSuccess = false, StatusCode = 500 });
 
         return result;
     }
 
-    private Option<ValidationResult> PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
+    private ValidationResult PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
     {
         holdResult.Patron.DomainEvents.ForEach(p => _eventBus.PublishAsync(p));
 

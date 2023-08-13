@@ -1,8 +1,10 @@
 ﻿using Core.Domain;
+using Orleans;
 
 namespace PatronAggregate.Events;
 
-public record BookPlacedOnHoldEvent : IDomainEvent
+[GenerateSerializer, Immutable]
+public record BookPlacedOnHoldEvent : IDomainActorEvent
 {
     private readonly Guid _id;
 
@@ -11,5 +13,5 @@ public record BookPlacedOnHoldEvent : IDomainEvent
         _id = id;
     }
 
-    public Guid Id => _id;
+    public Guid ActorId => _id;
 }

@@ -6,5 +6,5 @@ namespace Core.Application.Interfaces;
 public interface IEBus
 {
     Task PublishAsync(IntegrationEvent integrationEvent);
-    Task PublishAsync(IDomainEvent domainEvent);
+    Task PublishAsync<T>(T domainEvent) where T : IDomainActorEvent;
 }

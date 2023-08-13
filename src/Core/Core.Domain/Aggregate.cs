@@ -2,6 +2,6 @@
 {
     public class Aggregate : IAggregate
     {
-        public List<IDomainEvent> DomainEvents { get; } = new();
+        public List<IDomainActorEvent> DomainEvents { get; } = new();
     }
 }

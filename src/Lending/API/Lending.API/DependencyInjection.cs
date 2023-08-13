@@ -4,11 +4,14 @@
 
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
+using System.Reflection;
+using System.Linq;
 using Core.Application;
 using Core.Application.Interfaces;
 using FastEndpoints;
 using FastEndpoints.Swagger;
 using Lending.API.IntegrationEvents.Handlers;
+using Lending.API.Orchestrator;
 using Lending.Infrastructure;
 using Man.Dapr.Sidekick;
 using OpenTelemetry;
@@ -38,12 +41,28 @@ public static class DependencyInjection
         services.AddFastEndpoints();
         services.AddScoped<Handler>();
         services.AddScoped<IEBus, EventBus>();
+        services.AddScoped<IDomainEventHandler, BookActor>();
         services.AddScoped<IRepository>(p => new Repository(settings.ConnectionStrings.DefaultConnection));
  
         services.AddSingleton(new ActivitySource(AppId));
 
         return services;
+    }    
+    
+    public static IServiceCollection AddActorDictionary(this IServiceCollection services)
+    {
+        var localActorDictionary = Assembly.GetExecutingAssembly().GetTypes()
+            .Where(p => typeof(IDomainEventHandler).IsAssignableFrom(p))
+            .SelectMany(p => p.GetInterfaces().Where(g => g.IsGenericType 
+                && g.GetGenericTypeDefinition() == typeof(IDomainEventHandler<,>)))
+            .Select(p => p.GetGenericArguments())
+            .ToDictionary(p => p[0], p => p[1]);
+
+        services.AddScoped(p => new ActorDictionary(localActorDictionary));
+
+        return services;
     }
+
     public static WebApplicationBuilder AddAppSettings(this WebApplicationBuilder builder, out AppSettings settings)
     {
         settings = new AppSettings();

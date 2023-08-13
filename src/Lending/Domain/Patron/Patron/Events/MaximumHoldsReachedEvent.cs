@@ -2,6 +2,7 @@
 
 namespace PatronAggregate.Events;
 
-public record MaximumHoldsReachedEvent : IDomainEvent
+public record MaximumHoldsReachedEvent : IDomainActorEvent
 {
+    public Guid ActorId => throw new NotImplementedException();
 }
