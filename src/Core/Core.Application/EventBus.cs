@@ -50,7 +50,8 @@ public class EventBus : IEBus
             var test = generic.Invoke(this, new object[] { domainEvent.ActorId });
 
             //dynamic actorImpl = _clusterClient.GetGrain(actor, domainEvent.ActorId);
-            //var cast = (IDomainEventHandler<BookPlacedOnHoldEvent, IBookActor>)actorImpl;
+            ////var cast = (IDomainEventHandler<BookPlacedOnHoldEvent, IBookActor>)actorImpl;
+            //actorImpl.HandleAsync(domainEvent);
             Console.WriteLine();
         }
     }
@@ -58,6 +59,7 @@ public class EventBus : IEBus
     public async Task InvokeActor<T>(Guid ActorId) where T : IGrainWithGuidKey
     { 
         var grain = _clusterClient.GetGrain<T>(ActorId);
+        grain.HandleAsync();
         Console.WriteLine();
     }
 }
