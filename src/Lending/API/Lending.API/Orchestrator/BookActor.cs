@@ -1,10 +1,9 @@
-﻿using Core.Application.Interfaces;
-using Lending.Infrastructure;
+﻿using Lending.Infrastructure;
 using PatronAggregate.Events;
 
 namespace Lending.API.Orchestrator;
 
-public class BookActor : Grain, IBookActor, IDomainEventHandler<BookPlacedOnHoldEvent, IBookActor>
+public class BookActor : Grain, IBookActor
 {
     private readonly IRepository _repository;
 

@@ -4,6 +4,7 @@ using Core.Application.Interfaces;
 using Core.Domain;
 using Dapr.Client;
 using Microsoft.Extensions.Logging;
+using Orleans;
 
 namespace Core.Application;
 
@@ -40,26 +41,23 @@ public class EventBus : IEBus
         await _dapr.PublishEventAsync(PubSubName, topicName, (object)integrationEvent);
     }
 
-    public async Task PublishAsync<T>(T domainEvent) where T : IDomainActorEvent
+    public Task PublishAsync<T>(T domainEvent) where T : IDomainActorEvent
     {
         var eventType = domainEvent.GetType();
         if (_actorDictionary.TryGetValue(eventType, out var actor))
         {
+            var actorImpl = _clusterClient.GetGrain(actor, domainEvent.ActorId);
             var method = this.GetType().GetMethod(nameof(InvokeActor))!;
-            var generic = method.MakeGenericMethod(actor);
-            var test = generic.Invoke(this, new object[] { domainEvent.ActorId });
+            var generic = method.MakeGenericMethod(eventType);
 
-            //dynamic actorImpl = _clusterClient.GetGrain(actor, domainEvent.ActorId);
-            ////var cast = (IDomainEventHandler<BookPlacedOnHoldEvent, IBookActor>)actorImpl;
-            //actorImpl.HandleAsync(domainEvent);
-            Console.WriteLine();
+            return (Task)generic.Invoke(this, new object[] { actorImpl, domainEvent })!;
         }
+
+        return Task.CompletedTask;
     }
 
-    public async Task InvokeActor<T>(Guid ActorId) where T : IGrainWithGuidKey
+    public Task InvokeActor<T>(IDomainEventHandler<T> eventHandler, IDomainActorEvent domainActorEvent) where T : IDomainActorEvent
     { 
-        var grain = _clusterClient.GetGrain<T>(ActorId);
-        grain.HandleAsync();
-        Console.WriteLine();
+        return eventHandler.HandleAsync((T)domainActorEvent);
     }
 }

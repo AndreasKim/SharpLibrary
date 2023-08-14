@@ -1,9 +1,10 @@
-﻿namespace Core.Application.Interfaces
+﻿using Core.Domain;
+
+namespace Core.Application.Interfaces
 {
-    public interface IDomainEventHandler<T, A> : IDomainEventHandler where T : class
+    public interface IDomainEventHandler<T> : IDomainEventHandler where T : IDomainActorEvent
     {
-        //Type? GetActorInterface();
-        //Task HandleAsync(T DomainEvent);
+        Task HandleAsync(T DomainEvent);
     }    
     
     public interface IDomainEventHandler

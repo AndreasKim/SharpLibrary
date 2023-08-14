@@ -52,15 +52,19 @@ public static class DependencyInjection
     public static IServiceCollection AddActorDictionary(this IServiceCollection services)
     {
         var localActorDictionary = Assembly.GetExecutingAssembly().GetTypes()
-            .Where(p => typeof(IDomainEventHandler).IsAssignableFrom(p))
-            .SelectMany(p => p.GetInterfaces().Where(g => g.IsGenericType 
-                && g.GetGenericTypeDefinition() == typeof(IDomainEventHandler<,>)))
-            .Select(p => p.GetGenericArguments())
-            .ToDictionary(p => p[0], p => p[1]);
+            .Where(p => typeof(IDomainEventHandler).IsAssignableFrom(p) && p.IsInterface)
+            .Distinct()
+            .ToDictionary(GetGenericInterfaceArgument, p => p);
 
         services.AddScoped(p => new ActorDictionary(localActorDictionary));
 
         return services;
+    }
+
+    private static Type GetGenericInterfaceArgument(Type p)
+    {
+        return p.GetInterfaces().First(x => x.IsGenericType
+                        && x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>)).GetGenericArguments()[0];
     }
 
     public static WebApplicationBuilder AddAppSettings(this WebApplicationBuilder builder, out AppSettings settings)

@@ -1,5 +1,4 @@
 ﻿using Core.Domain;
-using Orleans;
 
 namespace PatronAggregate.Events;
 
