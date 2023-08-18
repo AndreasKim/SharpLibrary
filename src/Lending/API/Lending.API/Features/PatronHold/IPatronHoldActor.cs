@@ -1,6 +1,4 @@
-﻿using Lending.API.Features.PatronHold;
-
-namespace Lending.API.Orchestrator;
+﻿namespace Lending.API.Features.PatronHold;
 
 public interface IPatronActor : IGrainWithGuidKey
 {

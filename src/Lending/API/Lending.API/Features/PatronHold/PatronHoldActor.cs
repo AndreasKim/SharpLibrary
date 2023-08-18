@@ -1,11 +1,10 @@
 ﻿using Core.Application.Interfaces;
 using FluentValidation.Results;
-using Lending.API.Features.PatronHold;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
 
-namespace Lending.API.Orchestrator;
+namespace Lending.API.Features.PatronHold;
 
 public class PatronActor : Grain, IPatronActor
 {
@@ -29,17 +28,25 @@ public class PatronActor : Grain, IPatronActor
 
         var result = await holdResult
             .MapAsync(PublishEvents)
+            .MapAsync(CommitPatronChanges)
             .Some(p => new PatronHoldResponse() { IsSuccess = p.IsValid, ValidationErrors = p.Errors, StatusCode = p.IsValid ? 200 : 400 })
             .None(() => new PatronHoldResponse() { IsSuccess = false, StatusCode = 500 });
 
         return result;
     }
 
-    private async Task<ValidationResult> PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
+    private async Task<ValidationResult> CommitPatronChanges((ValidationResult Validation, Patron Patron) holdResult)
+    {
+        await _repository.Upsert(holdResult.Patron.Id, holdResult.Patron);
+
+        return holdResult.Validation;
+    }
+
+    private async Task<(ValidationResult Validation, Patron Patron)> PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
     {
         await Parallel.ForEachAsync(holdResult.Patron.DomainEvents, async (p, c) => await _eventBus.PublishAsync(p));
 
-        return holdResult.Validation;
+        return holdResult;
     }
 
 }

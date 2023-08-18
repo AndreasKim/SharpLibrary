@@ -36,7 +36,7 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
 
     public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
     {
-        var actor = _clusterClient.GetGrain<IPatronActor>(request.PatronId);
+        var actor = _clusterClient.GetGrain<IPatronHoldActor>(request.PatronId);
 
         var result = await actor.PlaceHold(request);
 
