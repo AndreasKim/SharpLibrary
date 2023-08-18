@@ -21,7 +21,7 @@ public class BookActor : Grain, IBookActor
 
         var result = book
             .Map(SetOnHold)
-            .BindAsync(async p => await _repository.Upsert(p.Id, p));
+            .BindAsync(p => _repository.Upsert(p.Id, p).ToAsync());
 
        if (await result.IsNone)
        {

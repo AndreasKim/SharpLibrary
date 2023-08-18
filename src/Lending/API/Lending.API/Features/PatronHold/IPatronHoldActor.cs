@@ -1,6 +1,6 @@
 ﻿namespace Lending.API.Features.PatronHold;
 
-public interface IPatronActor : IGrainWithGuidKey
+public interface IPatronHoldActor : IGrainWithGuidKey
 {
     Task<PatronHoldResponse> PlaceHold(PatronHoldRequest request);
 }

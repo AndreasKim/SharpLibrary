@@ -17,31 +17,35 @@ public class RepositoryTests
     [Theory, AutoData]
     public async Task Upsert(Patron patron)
     {
-        bool success = await _repo.Upsert(patron.Id, patron);
-        success.Should().BeTrue();
+        var success = await _repo.Upsert(patron.Id, patron);
+        success.IsSome.Should().BeTrue();
+        success.Some(p => p.Should().BeTrue());
     }        
     
     [Theory, AutoData]
     public async Task Get(Patron patron)
     {
-        bool success = await _repo.Upsert(patron.Id, patron);
+        var success = await _repo.Upsert(patron.Id, patron);
 
         var result = await _repo.Get<Patron>(patron.Id);
 
-        success.Should().BeTrue();
+        success.IsSome.Should().BeTrue();
+        success.Some(p => p.Should().BeTrue());
         result.IfSome(p => p.Should().BeEquivalentTo(patron));
     }   
     
     [Theory, AutoData]
     public async Task Upsert_Update(Patron patron, Patron patron2)
     {
-        bool initial = await _repo.Upsert(patron.Id, patron);
-        bool final = await _repo.Upsert(patron.Id, patron2);
+        var initial = await _repo.Upsert(patron.Id, patron);
+        var final = await _repo.Upsert(patron.Id, patron2);
 
         var result = await _repo.Get<Patron>(patron.Id);
 
-        initial.Should().BeTrue();
-        final.Should().BeTrue();
+        initial.IsSome.Should().BeTrue();
+        initial.Some(p => p.Should().BeTrue());
+        final.IsSome.Should().BeTrue();
+        final.Some(p => p.Should().BeTrue());
         result.IfSome(p => p.Should().BeEquivalentTo(patron2));
     }
 }

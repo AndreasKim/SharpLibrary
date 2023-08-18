@@ -6,7 +6,7 @@ using Lending.Infrastructure;
 
 namespace Lending.API.Features.PatronHold;
 
-public class PatronActor : Grain, IPatronActor
+public class PatronActor : Grain, IPatronHoldActor
 {
     private readonly IRepository _repository;
     private readonly IEBus _eventBus;
