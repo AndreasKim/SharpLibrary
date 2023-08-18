@@ -16,4 +16,9 @@ public class Book
     public BookState State { get; private set; }
     public BookType Type { get; private set; }
     public HoldLifeType HoldLifeTime { get; private set; }
+
+    public void SetBookOnHold()
+    {
+        State = BookState.UnAvailable;
+    }
 }

@@ -47,6 +47,7 @@ public class EventBus : IEBus
         if (_actorDictionary.TryGetValue(eventType, out var actor))
         {
             var actorImpl = _clusterClient.GetGrain(actor, domainEvent.ActorId);
+
             var method = this.GetType().GetMethod(nameof(InvokeActor))!;
             var generic = method.MakeGenericMethod(eventType);
 
@@ -56,7 +57,7 @@ public class EventBus : IEBus
         return Task.CompletedTask;
     }
 
-    public Task InvokeActor<T>(IDomainEventHandler<T> eventHandler, IDomainActorEvent domainActorEvent) where T : IDomainActorEvent
+    public static Task InvokeActor<T>(IDomainEventHandler<T> eventHandler, IDomainActorEvent domainActorEvent) where T : IDomainActorEvent
     { 
         return eventHandler.HandleAsync((T)domainActorEvent);
     }

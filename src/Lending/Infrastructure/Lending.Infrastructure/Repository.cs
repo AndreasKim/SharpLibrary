@@ -18,12 +18,12 @@ namespace Lending.Infrastructure
             _jsonCommand = new JsonCommandsAsync(_db);
         }
 
-        public async Task<bool> Upsert<T>(Guid id, T value)
+        public async Task<OptionAsync<bool>> Upsert<T>(Guid id, T value)
         {
             return await _jsonCommand.SetAsync(new RedisKey(id.ToString()), new RedisValue("$"), value);
         }
 
-        public async Task<Option<T>> Get<T>(Guid id)
+        public async Task<OptionAsync<T>> Get<T>(Guid id)
         {
             var exists = await _db.KeyExistsAsync(new RedisKey(id.ToString()));
 
@@ -31,7 +31,7 @@ namespace Lending.Infrastructure
             {
                 var result = await _jsonCommand.GetAsync(new RedisKey(id.ToString()));
                 var resultStr = JsonSerializer.Deserialize<T>(result.ToString());
-                return Some(resultStr);
+                return SomeAsync(resultStr);
             }
             else 
                 return None;

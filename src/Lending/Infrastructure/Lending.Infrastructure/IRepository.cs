@@ -4,7 +4,7 @@ namespace Lending.Infrastructure
 {
     public interface IRepository
     {
-        Task<Option<T>> Get<T>(Guid id);
-        Task<bool> Upsert<T>(Guid id, T value);
+        Task<OptionAsync<T>> Get<T>(Guid id);
+        Task<OptionAsync<bool>> Upsert<T>(Guid id, T value);
     }
 }

@@ -27,17 +27,17 @@ public class PatronActor : Grain, IPatronActor
                          from b in book
                          select (p.HoldBook(b), p);
 
-        var result = holdResult
-            .Map(PublishEvents)
+        var result = await holdResult
+            .MapAsync(PublishEvents)
             .Some(p => new PatronHoldResponse() { IsSuccess = p.IsValid, ValidationErrors = p.Errors, StatusCode = p.IsValid ? 200 : 400 })
             .None(() => new PatronHoldResponse() { IsSuccess = false, StatusCode = 500 });
 
         return result;
     }
 
-    private ValidationResult PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
+    private async Task<ValidationResult> PublishEvents((ValidationResult Validation, Patron Patron) holdResult)
     {
-        holdResult.Patron.DomainEvents.ForEach(p => _eventBus.PublishAsync(p));
+        await Parallel.ForEachAsync(holdResult.Patron.DomainEvents, async (p, c) => await _eventBus.PublishAsync(p));
 
         return holdResult.Validation;
     }
