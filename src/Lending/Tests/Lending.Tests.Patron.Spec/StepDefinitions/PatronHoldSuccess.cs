@@ -19,6 +19,8 @@ public class PatronHoldSuccess
     [Then(@"the close ended bookhold suceeds")]
     public void ThenTheCloseEndedBookholdSuceeds()
     {
+        _context.Result.IsValid.Should().BeTrue();
+        _context.Result.Errors.Should().BeEmpty();
         _context.Patron.HoldBookIds.Should().NotBeEmpty();
         _context.Patron.HoldBookIds.Should().Contain(_context.Book.Id);
     }
