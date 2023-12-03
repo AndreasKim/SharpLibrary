@@ -2,7 +2,7 @@
 
 We can now shift our focus to the Application layer and the publication of our first feature PatronHold end-to-end.
 At first, some persistence is needed to store books and patrons. In this example I will use Redis as the primary database, mainly since I wanted to
-try out how it will behave in such a usecase and the complexity of this domain is generally limited. In a real usecase you would (likely) not make the same decision, especially when you have certain durability and data recovery requirements.
+play around with it and see how it will behave in such a usecase while the complexity of this domain is generally limited. In a real usecase you would (likely) not make the same decision, especially when you have certain durability and data recovery requirements.
 
 With Redis in place, it is now possible to handle your realtime data bookstore requirements with sub-ms response times, in case you need it (probably not).  
 The Repository will, for now, only contain two methods, Upsert and Get:
