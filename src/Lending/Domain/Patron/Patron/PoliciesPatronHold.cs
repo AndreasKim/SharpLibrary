@@ -19,6 +19,7 @@ public class PoliciesPatronHold : AbstractValidator<Patron>
     public void PolicyMaxHold(int booksToHold)
     {
         RuleFor(p => p.HoldBookIds.Count + booksToHold).LessThanOrEqualTo(5)
+            .When(p => p.Type == PatronType.Regular)
             .WithMessage("Regular Patron can not hold more than 5 books.").WithErrorCode("400");
     }
 

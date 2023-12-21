@@ -13,7 +13,7 @@ public class PatronHoldSuccess
     [When(@"the patron places a hold on the book")]
     public void WhenThePatronPlacesAHoldOnTheBook()
     {
-        _context.Patron.HoldBook(_context.Book);
+        _context.Result = _context.Patron.HoldBook(_context.Book);
     }
 
     [Then(@"the close ended bookhold suceeds")]
