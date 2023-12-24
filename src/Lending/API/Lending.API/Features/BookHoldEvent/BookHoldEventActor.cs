@@ -1,7 +1,5 @@
-﻿using LanguageExt;
-using Lending.API.Grains.Book;
+﻿using Lending.API.Grains.BookGrain;
 using PatronAggregate.Events;
-using static LanguageExt.Prelude;
 
 namespace Lending.API.Features.BookHoldEvent;
 
@@ -18,31 +16,11 @@ public class BookHoldEventActor : Grain, IBookHoldEventActor
 
     public async Task HandleAsync(BookPlacedOnHoldEvent DomainEvent)
     {
-        var book = GetBook(DomainEvent);
+        var bookActor = _clusterClient.GetGrain<IBookActor>(DomainEvent.ActorId);
+        var book = await bookActor.Read();
 
-        await book
-            .Map(SetOnHold)
-            .Bind(UpdateBook)
-            .IfFailThrow();
-    }
+        book.Book?.SetBookOnHold();
 
-    private TryAsync<BookContainer> UpdateBook(BookContainer book)
-        => TryAsync(async () =>
-        {
-            await _clusterClient
-                .GetGrain<IBookActor>(book.Book.Id)
-                .Write(book);
-            return book;
-        });
-
-    private TryAsync<BookContainer> GetBook(BookPlacedOnHoldEvent DomainEvent)
-        => TryAsync(() => _clusterClient
-                .GetGrain<IBookActor>(DomainEvent.ActorId)
-                .Read());
-
-    private BookContainer SetOnHold(BookContainer book)
-    {
-        book.Book.SetBookOnHold();
-        return book;
+        await bookActor.Write(book);
     }
 }

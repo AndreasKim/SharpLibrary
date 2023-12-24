@@ -1,27 +1,31 @@
 ﻿using Core.Application.Interfaces;
 using FluentValidation.Results;
-using Lending.Domain.BookAggregate;
+using Lending.API.Grains.BookGrain;
+using Lending.API.Grains.PatronGrain;
 using Lending.Domain.PatronAggregate;
-using Lending.Infrastructure;
 using Orleans.Runtime;
+using static LanguageExt.Prelude;
 
 namespace Lending.API.Features.PatronHold;
 
-public class PatronActor : Grain, IPatronHoldActor
+public class PatronHoldActor : Grain, IPatronHoldActor
 {
-    private readonly IRepository _repository;
+    private readonly IClusterClient _clusterClient;
     private readonly IEBus _eventBus;
 
-    public PatronActor(IRepository repository, IEBus eventBus)
+    public PatronHoldActor(IClusterClient client, IEBus eventBus)
     {
-        _repository = repository;
+        _clusterClient = client;
         _eventBus = eventBus;
     }
 
     public async Task<PatronHoldResponse> PlaceHold(PatronHoldRequest request)
     {
-        var patron = await _repository.Get<Patron>(request.PatronId);
-        var book = await _repository.Get<Book>(request.BookId);
+        var patronActor = await _clusterClient.GetGrain<IPatronActor>(request.PatronId).Read();
+        var patron = Some(patronActor.Patron);
+
+        var bookActor = await _clusterClient.GetGrain<IBookActor>(request.BookId).Read();
+        var book = Some(bookActor.Book);
 
         var holdResult = from p in patron
                          from b in book
@@ -38,7 +42,11 @@ public class PatronActor : Grain, IPatronHoldActor
 
     private async Task<ValidationResult> CommitPatronChanges((ValidationResult Validation, Patron Patron) holdResult)
     {
-        await _repository.Upsert(holdResult.Patron.Id, holdResult.Patron);
+        var container = new PatronContainer { Patron = holdResult.Patron };
+
+        await _clusterClient
+            .GetGrain<IPatronActor>(holdResult.Patron.Id)
+            .Write(container);
 
         return holdResult.Validation;
     }

@@ -1,6 +1,6 @@
 ﻿using Lending.Domain.BookAggregate;
 
-namespace Lending.API.Grains.Book;
+namespace Lending.API.Grains.BookGrain;
 
 [GenerateSerializer, Immutable]
 public class BookContainer
@@ -15,5 +15,5 @@ public class BookContainer
         Book = new Book(id, libraryBranchId, state, type, holdLifeTime);
     }
 
-    public Book Book { get; set; }
+    public Book? Book { get; set; }
 }

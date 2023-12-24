@@ -1,6 +1,6 @@
 ﻿using Orleans.Runtime;
 
-namespace Lending.API.Grains.Book;
+namespace Lending.API.Grains.BookGrain;
 
 public class BookActor : Grain, IBookActor
 {
