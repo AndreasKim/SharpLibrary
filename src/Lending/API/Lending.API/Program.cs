@@ -20,11 +20,6 @@ builder.Host.UseOrleans(silo =>
     {
         silo.UseLocalhostClustering()
             .ConfigureLogging(logging => logging.AddConsole());
-        silo.AddAdoNetGrainStorage("libraryStore", options =>
-        {
-            options.Invariant = "System.Data.SqlClient";
-            options.ConnectionString = settings.ConnectionStrings.GrainStorage;
-        });
     })
     .UseConsoleLifetime();
 

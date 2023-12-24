@@ -5,12 +5,13 @@
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Reflection;
+using System.Linq;
 using Core.Application;
 using Core.Application.Interfaces;
 using FastEndpoints;
 using FastEndpoints.Swagger;
-using Lending.API.Features.BookHoldEvent;
 using Lending.API.IntegrationEvents.Handlers;
+using Lending.API.Orchestrator;
 using Lending.Infrastructure;
 using Man.Dapr.Sidekick;
 using OpenTelemetry;
@@ -40,7 +41,7 @@ public static class DependencyInjection
         services.AddFastEndpoints();
         services.AddScoped<Handler>();
         services.AddScoped<IEBus, EventBus>();
-        services.AddScoped<IDomainEventHandler, BookHoldEventActor>();
+        services.AddScoped<IDomainEventHandler, BookActor>();
         services.AddScoped<IRepository>(p => new Repository(settings.ConnectionStrings.DefaultConnection));
  
         services.AddSingleton(new ActivitySource(AppId));
