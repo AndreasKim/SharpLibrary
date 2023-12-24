@@ -3,6 +3,7 @@ using FluentValidation.Results;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
+using Orleans.Runtime;
 
 namespace Lending.API.Features.PatronHold;
 

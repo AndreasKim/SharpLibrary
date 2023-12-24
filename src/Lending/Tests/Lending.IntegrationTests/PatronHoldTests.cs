@@ -3,11 +3,13 @@ using FastEndpoints;
 using FluentAssertions;
 using Lending.API;
 using Lending.API.Features.PatronHold;
+using Lending.API.Grains.Book;
 using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using Lending.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
+using Orleans.TestingHost;
 
 namespace Lending.IntegrationTests
 {
@@ -15,20 +17,31 @@ namespace Lending.IntegrationTests
     {
         private Repository _repo;
 
+        private readonly WebApplicationFactory<AppSettings> _webApplicationFactory;
+
         public PatronHoldTests()
         {
             _repo = new Repository("localhost:6379");
+            _webApplicationFactory = new WebApplicationFactory<AppSettings>()
+                    .WithWebHostBuilder(b =>
+                        b.ConfigureServices(s =>
+                            s.AddScoped<IRepository>(p => new Repository("localhost:6379"))));
+            Client = _webApplicationFactory.CreateClient();
         }
 
-        public static HttpClient Client { get; } = new WebApplicationFactory<AppSettings>()
-            .WithWebHostBuilder(b =>
-                b.ConfigureServices(s =>
-                    s.AddScoped<IRepository>(p => new Repository("localhost:6379"))))
-            .CreateClient();
+        public HttpClient Client { get; private set; }
+
 
         [Theory, AutoData]
         public async Task PatronHoldEndpoint_HoldAvailableBook_Succeeds(PatronHoldRequest request)
         {
+            using (var scope = _webApplicationFactory.Services.CreateScope())
+            {
+                var client = scope.ServiceProvider.GetRequiredService<IClusterClient>();
+                await client.GetGrain<IBookActor>(request.BookId)
+                    .Write(new BookContainer(request.BookId, Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded));
+            }
+
             await _repo.Upsert(request.BookId, new Book(request.BookId, Guid.NewGuid(), BookState.Available, BookType.Circulating, HoldLifeType.CloseEnded));
             await _repo.Upsert(request.PatronId, new Patron(request.PatronId, PatronType.Regular));
 

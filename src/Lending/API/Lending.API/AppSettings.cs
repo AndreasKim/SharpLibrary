@@ -16,6 +16,7 @@ public class AppSettings
 public class Connectionstrings
 {
     public string DefaultConnection { get; set; }
+    public string GrainStorage { get; set; }
 }
 
 public class Serilog

@@ -2,6 +2,7 @@
 
 namespace Lending.Domain.BookAggregate;
 
+
 public class BookState : Enumeration
 {
     public static BookState Available = new(1, nameof(Available));
