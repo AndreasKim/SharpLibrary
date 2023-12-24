@@ -12,3 +12,8 @@ This repository can be retraced through the following steps:
 [DDDLibrary_LanguageExt](docs/DDDLibrary_LanguageExt.md)
 
 [DDDLibrary_Orleans](docs/DDDLibrary_Orleans.md)
+
+
+## Leave a star
+
+If you like this project, please leave a star :star:
