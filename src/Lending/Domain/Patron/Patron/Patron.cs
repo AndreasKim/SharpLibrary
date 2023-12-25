@@ -15,7 +15,7 @@ public class Patron : Aggregate
         Id = id;
     }
 
-    public Guid Id { get; set; }
+    public Guid Id { get; private set; }
     public PatronType Type { get; private set; }
     public ReadOnlyCollection<Guid> HoldBookIds => _holdBookIds.AsReadOnly();
     public Dictionary<Guid, int> OverDueCheckouts { get; private set; } = new();

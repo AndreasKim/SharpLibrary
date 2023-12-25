@@ -11,7 +11,7 @@ using Lending.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Lending.IntegrationTests
+namespace Lending.API.IntegrationTests
 {
     public class PatronHoldTests
     {

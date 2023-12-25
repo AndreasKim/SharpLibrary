@@ -1,8 +1,11 @@
 ﻿using Core.Application.Interfaces;
 using FastEndpoints;
 using FluentValidation.Results;
+using LanguageExt;
+using LanguageExt.SomeHelp;
 using Lending.API.Grains.BookGrain;
 using Lending.API.Grains.PatronGrain;
+using Lending.Domain.BookAggregate;
 using Lending.Domain.PatronAggregate;
 using static LanguageExt.Prelude;
 
@@ -43,10 +46,10 @@ public class PatronHoldEndpoint : Endpoint<PatronHoldRequest>
     public override async Task HandleAsync(PatronHoldRequest request, CancellationToken ct)
     {
         var patronActor = await _clusterClient.GetGrain<IPatronActor>(request.PatronId).Read();
-        var patron = Some(patronActor.Patron);
+        Option<Patron> patron = patronActor.Patron;
 
         var bookActor = await _clusterClient.GetGrain<IBookActor>(request.BookId).Read();
-        var book = Some(bookActor.Book);
+        Option<Book> book = bookActor.Book;
 
         var holdResult = from p in patron
                          from b in book

@@ -1,9 +1,8 @@
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using Lending.Domain.PatronAggregate;
-using Lending.Infrastructure;
 
-namespace Lending.UnitTests;
+namespace Lending.Infrastructure.UnitTests;
 
 public class RepositoryTests
 {
